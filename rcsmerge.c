@@ -179,7 +179,7 @@ out:
 	return (status);
 }
 
-__dead void
+__dead2 void
 rcsmerge_usage(void)
 {
 	fprintf(stderr,

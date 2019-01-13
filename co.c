@@ -218,7 +218,7 @@ checkout_main(int argc, char **argv)
 	return (ret);
 }
 
-__dead void
+__dead2 void
 checkout_usage(void)
 {
 	fprintf(stderr,

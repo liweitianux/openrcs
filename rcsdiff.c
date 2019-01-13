@@ -258,7 +258,7 @@ rcsdiff_main(int argc, char **argv)
 	return (status);
 }
 
-__dead void
+__dead2 void
 rcsdiff_usage(void)
 {
 	fprintf(stderr,

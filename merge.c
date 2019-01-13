@@ -111,7 +111,7 @@ merge_main(int argc, char **argv)
 	return (status);
 }
 
-__dead void
+__dead2 void
 merge_usage(void)
 {
 	(void)fprintf(stderr,

@@ -89,7 +89,7 @@ static void	 checkin_parsekeyword(char *, RCSNUM **, time_t *, char **,
 static int	 checkin_update(struct checkin_params *);
 static int	 checkin_revert(struct checkin_params *);
 
-__dead void
+__dead2 void
 checkin_usage(void)
 {
 	fprintf(stderr,

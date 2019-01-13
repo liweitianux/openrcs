@@ -3,7 +3,6 @@
 PROG=	rcs
 
 WARNS?=	3
-CFLAGS+=-D__dead=__dead2
 
 CFLAGS+=-I${.CURDIR}
 SRCS=	ci.c co.c ident.c merge.c rcsclean.c rcsdiff.c rcsmerge.c rcsparse.c \

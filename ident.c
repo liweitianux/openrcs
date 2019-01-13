@@ -160,7 +160,7 @@ out:
 	buf_free(bp);
 }
 
-__dead void
+__dead2 void
 ident_usage(void)
 {
 	fprintf(stderr, "usage: ident [-qV] [file ...]\n");

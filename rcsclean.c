@@ -119,7 +119,7 @@ rcsclean_main(int argc, char **argv)
 	return (0);
 }
 
-__dead void
+__dead2 void
 rcsclean_usage(void)
 {
 	fprintf(stderr,

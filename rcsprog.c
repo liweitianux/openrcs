@@ -163,7 +163,7 @@ main(int argc, char **argv)
 }
 
 
-__dead void
+__dead2 void
 rcs_usage(void)
 {
 	fprintf(stderr,

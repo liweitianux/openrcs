@@ -59,7 +59,7 @@ static char *revsep = "----------------------------";
 static char *revend = "====================================================="
     "========================";
 
-__dead void
+__dead2 void
 rlog_usage(void)
 {
 	fprintf(stderr,
