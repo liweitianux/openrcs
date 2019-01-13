@@ -1,0 +1,26 @@
+OpenRCS
+=======
+
+A BSD-licensed rewrite of the original RCS (revision control system) by
+OpenBSD, first appeared in OpenBSD 4.0.
+
+Upstream
+--------
+https://cvsweb.openbsd.org/cgi-bin/cvsweb/src/usr.bin/rcs/
+https://github.com/openbsd/src/blame/master/usr.bin/rcs
+
+Version
+-------
+upstream @ 2018-12-30
+
+License
+-------
+BSD 2-Clause License, with the following exceptions:
+  * BSD 3-Clause License
+    - diff.[ch]
+  * BSD 4-Clause "Original" or "Old" License
+    - diff3.c
+  * ISC License
+    - rcsparse.[ch]
+
+Copyright (c) 2003-2018 The OpenBSD Project and its contributors
