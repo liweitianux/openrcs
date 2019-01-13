@@ -128,8 +128,10 @@ main(int argc, char **argv)
 	char **cmd_argv;
 	int ret, cmd_argc;
 
+#ifdef __OpenBSD__
 	if (pledge("stdio rpath wpath cpath fattr flock getpw", NULL) == -1)
 		err(2, "pledge");
+#endif
 
 	ret = -1;
 	rcs_optind = 1;

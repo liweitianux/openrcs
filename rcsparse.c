@@ -15,6 +15,7 @@
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
+#include <sys/param.h>
 #include <sys/queue.h>
 
 #include <ctype.h>
@@ -1225,7 +1226,7 @@ valid_login(char *login_name)
 			return 0;
 		}
 	}
-	if ((char *)cp - login_name > _PW_NAME_LEN)
+	if ((char *)cp - login_name > MAXLOGNAME-1)
 		return 0;
 	return 1;
 }
