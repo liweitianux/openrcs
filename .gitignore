@@ -1,0 +1,4 @@
+*.o
+*.gz
+/date.[ch]
+/rcs
