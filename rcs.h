@@ -29,6 +29,7 @@
 
 #include <sys/queue.h>
 
+#include <time.h>
 #include <stdio.h>
 
 #include "buf.h"

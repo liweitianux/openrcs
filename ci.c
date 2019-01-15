@@ -823,7 +823,7 @@ checkin_mtimedate(struct checkin_params *pb)
 	if (fstat(workfile_fd, &sb) == -1)
 		err(1, "%s", pb->filename);
 
-	pb->date = sb.st_mtimespec.tv_sec;
+	pb->date = sb.st_mtim.tv_sec;
 }
 
 /*

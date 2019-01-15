@@ -60,7 +60,7 @@ rcs_get_mtime(RCSFILE *file)
 		return (-1);
 	}
 
-	mtime = st.st_mtimespec.tv_sec;
+	mtime = st.st_mtim.tv_sec;
 
 	return (mtime);
 }

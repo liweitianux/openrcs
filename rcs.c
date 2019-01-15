@@ -24,7 +24,6 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include <sys/param.h>	/* MAXBSIZE */
 #include <sys/stat.h>
 
 #include <ctype.h>
@@ -359,7 +358,7 @@ rcs_movefile(char *from, char *to, mode_t perm, u_int to_flags)
 {
 	FILE *src, *dst;
 	size_t nread, nwritten;
-	char *buf;
+	char buf[BUFSIZ];
 
 	if (rename(from, to) == 0) {
 		if (chmod(to, perm) == -1) {
@@ -395,14 +394,13 @@ rcs_movefile(char *from, char *to, mode_t perm, u_int to_flags)
 		return (-1);
 	}
 
-	buf = xmalloc(MAXBSIZE);
-	while ((nread = fread(buf, sizeof(char), MAXBSIZE, src)) != 0) {
+	while ((nread = fread(buf, 1, sizeof(buf), src)) != 0) {
 		if (ferror(src)) {
 			warnx("failed to read `%s'", from);
 			(void)unlink(to);
 			goto out;
 		}
-		nwritten = fwrite(buf, sizeof(char), nread, dst);
+		nwritten = fwrite(buf, 1, nread, dst);
 		if (nwritten != nread) {
 			warnx("failed to write `%s'", to);
 			(void)unlink(to);
@@ -415,7 +413,6 @@ rcs_movefile(char *from, char *to, mode_t perm, u_int to_flags)
 out:
 	(void)fclose(src);
 	(void)fclose(dst);
-	free(buf);
 
 	return (0);
 }

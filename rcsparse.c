@@ -15,7 +15,6 @@
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-#include <sys/param.h>
 #include <sys/queue.h>
 
 #include <ctype.h>
@@ -1214,6 +1213,10 @@ static int
 valid_login(char *login_name)
 {
 	unsigned char *cp;
+	int login_name_size;
+
+	if ((login_name_size = sysconf(_SC_LOGIN_NAME_MAX)) <= 0)
+		errx(1, "failed to get LOGIN_NAME_MAX");
 
 	/* The first character cannot be a hyphen */
 	if (*login_name == '-')
@@ -1226,7 +1229,7 @@ valid_login(char *login_name)
 			return 0;
 		}
 	}
-	if ((char *)cp - login_name > MAXLOGNAME-1)
+	if ((char *)cp - login_name > login_name_size - 1)
 		return 0;
 	return 1;
 }
