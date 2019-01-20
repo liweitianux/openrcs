@@ -608,4 +608,4 @@ test-ci-2files: clean
 clean:
 	@rm -rf ${CLEANFILES}
 
-.include <bsd.regress.mk>
+.include "${.CURDIR}/bsd.regress.mk"
