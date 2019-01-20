@@ -904,7 +904,8 @@ checkin_keywordscan(BUF *data, RCSNUM **rev, time_t *date, char **author,
 
 		/* XXX - Not binary safe. */
 		buf_putc(buf, '\0');
-		checkin_parsekeyword(buf_get(buf), rev, date, author, state);
+		checkin_parsekeyword((char *)buf_get(buf), rev, date,
+				     author, state);
 		buf_free(buf);
 loopend:;
 	}

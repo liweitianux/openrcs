@@ -1147,7 +1147,7 @@ asciifile(FILE *f)
 	return (memchr(buf, '\0', cnt) == NULL);
 }
 
-#define begins_with(s, pre) (strncmp(s, pre, sizeof(pre)-1) == 0)
+#define begins_with(s, pre) (strncmp((char *)s, pre, sizeof(pre)-1) == 0)
 
 static char *
 match_function(const long *f, int pos, FILE *fp)
@@ -1166,7 +1166,7 @@ match_function(const long *f, int pos, FILE *fp)
 		nc = fread(buf, 1, nc, fp);
 		if (nc > 0) {
 			buf[nc] = '\0';
-			buf[strcspn(buf, "\n")] = '\0';
+			buf[strcspn((char *)buf, "\n")] = '\0';
 			if (isalpha(buf[0]) || buf[0] == '_' || buf[0] == '$') {
 				if (begins_with(buf, "private:")) {
 					if (!state)
@@ -1178,7 +1178,7 @@ match_function(const long *f, int pos, FILE *fp)
 					if (!state)
 						state = " (public)";
 				} else {
-					if (strlcpy(lastbuf, buf,
+					if (strlcpy(lastbuf, (char *)buf,
 					    sizeof(lastbuf)) >= sizeof(lastbuf))
 						errx(1,
 						    "match_function: strlcpy");

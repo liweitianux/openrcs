@@ -433,7 +433,7 @@ ed_patch_lines(struct rcs_lines *dlines, struct rcs_lines *plines)
 
 		/* len - 1 is NUL terminator so we use len - 2 for 'op' */
 		op = lp->l_line[lp->l_len - 2];
-		start = (int)strtol(lp->l_line, &ep, 10);
+		start = (int)strtol((char *)lp->l_line, &ep, 10);
 
 		/* Restore the last byte of the buffer */
 		lp->l_line[lp->l_len - 1] = last_byte;

@@ -627,7 +627,7 @@ int
 rcs_sym_check(const char *sym)
 {
 	int ret;
-	const unsigned char *cp;
+	const char *cp;
 
 	ret = 1;
 	cp = sym;
@@ -813,7 +813,7 @@ rcs_patch_lines(struct rcs_lines *dlines, struct rcs_lines *plines)
 		/* NUL-terminate line buffer for strtol() safety. */
 		last_byte = lp->l_line[lp->l_len - 1];
 		lp->l_line[lp->l_len - 1] = '\0';
-		lineno = (int)strtol((lp->l_line + 1), &ep, 10);
+		lineno = (int)strtol((char *)(lp->l_line + 1), &ep, 10);
 		if (lineno > dlines->l_nblines || lineno < 0 ||
 		    *ep != ' ')
 			errx(1, "invalid line specification in RCS patch");
@@ -1061,7 +1061,7 @@ rcs_delta_stats(struct rcs_delta *rdp, int *ladded, int *lremoved)
 			/* NUL-terminate line buffer for strtol() safety. */
 			last_byte = lp->l_line[lp->l_len - 1];
 			lp->l_line[lp->l_len - 1] = '\0';
-			(void)strtol((lp->l_line + 1), &ep, 10);
+			(void)strtol((char *)(lp->l_line + 1), &ep, 10);
 			ep++;
 			nbln = (int)strtol(ep, &ep, 10);
 			/* Restore the last byte of the buffer */
@@ -1805,7 +1805,7 @@ int
 rcs_state_check(const char *state)
 {
 	int ret;
-	const unsigned char *cp;
+	const char *cp;
 
 	ret = 0;
 	cp = state;

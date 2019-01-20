@@ -151,8 +151,8 @@ static void	rcsparse_growbuf(RCSFILE *);
 static int	rcsparse_string(RCSFILE *, int);
 static int	rcsparse_token(RCSFILE *, int);
 static void	rcsparse_warnx(RCSFILE *, char *, ...);
-static int	valid_login(char *);
-static int	valid_commitid(char *);
+static int	valid_login(const char *);
+static int	valid_commitid(const char *);
 
 /*
  * head [REVISION];
@@ -603,7 +603,7 @@ rcsparse_text(RCSFILE *rfp, struct rcs_pdata *pdp)
 
 	pdp->rp_delta->rd_tlen = pdp->rp_tlen - 1;
 	if (pdp->rp_delta->rd_tlen == 0) {
-		pdp->rp_delta->rd_text = xstrdup("");
+		pdp->rp_delta->rd_text = (u_char *)xstrdup("");
 	} else {
 		pdp->rp_delta->rd_text = xmalloc(pdp->rp_delta->rd_tlen);
 		memcpy(pdp->rp_delta->rd_text, pdp->rp_buf,
@@ -1210,9 +1210,9 @@ rcsparse_growbuf(RCSFILE *rfp)
  * return 1 if `login' is a valid login name
  */
 static int
-valid_login(char *login_name)
+valid_login(const char *login_name)
 {
-	unsigned char *cp;
+	const char *cp;
 	int login_name_size;
 
 	if ((login_name_size = sysconf(_SC_LOGIN_NAME_MAX)) <= 0)
@@ -1229,22 +1229,22 @@ valid_login(char *login_name)
 			return 0;
 		}
 	}
-	if ((char *)cp - login_name > login_name_size - 1)
+	if (cp - login_name > login_name_size - 1)
 		return 0;
 	return 1;
 }
 
 static int
-valid_commitid(char *commitid)
+valid_commitid(const char *commitid)
 {
-	unsigned char *cp;
+	const char *cp;
 
 	/* A-Za-z0-9 */
 	for (cp = commitid; *cp ; cp++) {
 		if (!isalnum(*cp))
 			return 0;
 	}
-	if ((char *)cp - commitid > RCS_COMMITID_MAXLEN)
+	if (cp - commitid > RCS_COMMITID_MAXLEN)
 		return 0;
 	return 1;
 }

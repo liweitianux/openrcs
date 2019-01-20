@@ -354,7 +354,7 @@ rlog_file(const char *fname, RCSFILE *file)
 	struct rcs_access *acp;
 	struct rcs_delta *rdp;
 	struct rcs_lock *lkp;
-	char *workfile, *p;
+	char *fname2, *workfile, *p;
 
 	if (rflag == 1)
 		nrev = rcs_rev_select(file, revisions);
@@ -364,7 +364,8 @@ rlog_file(const char *fname, RCSFILE *file)
 	} else
 		nrev = file->rf_ndelta;
 
-	if ((workfile = basename(fname)) == NULL)
+	fname2 = xstrdup(fname);
+	if ((workfile = basename(fname2)) == NULL)
 		err(1, "basename");
 
 	/*
