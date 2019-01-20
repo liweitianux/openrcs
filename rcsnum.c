@@ -157,10 +157,10 @@ rcsnum_itoa(u_int16_t num, char *buf, size_t len)
 
 	p = buf + len - 1;
 	i = num;
-	bzero(buf, len);
+	memset(buf, 0, len);
 	while (i) {
 		*--p = '0' + (i % 10);
-		i  /= 10;
+		i /= 10;
 	}
 	return (p);
 }

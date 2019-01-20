@@ -799,7 +799,7 @@ rcs_patch_lines(struct rcs_lines *dlines, struct rcs_lines *plines)
 	char op, *ep;
 	struct rcs_line *lp, *dlp, *ndlp;
 	int i, lineno, nbln;
-	u_char tmp;
+	u_char last_byte;
 
 	dlp = TAILQ_FIRST(&(dlines->l_lines));
 	lp = TAILQ_FIRST(&(plines->l_lines));
@@ -811,7 +811,7 @@ rcs_patch_lines(struct rcs_lines *dlines, struct rcs_lines *plines)
 			errx(1, "line too short, RCS patch seems broken");
 		op = *(lp->l_line);
 		/* NUL-terminate line buffer for strtol() safety. */
-		tmp = lp->l_line[lp->l_len - 1];
+		last_byte = lp->l_line[lp->l_len - 1];
 		lp->l_line[lp->l_len - 1] = '\0';
 		lineno = (int)strtol((lp->l_line + 1), &ep, 10);
 		if (lineno > dlines->l_nblines || lineno < 0 ||
@@ -820,7 +820,7 @@ rcs_patch_lines(struct rcs_lines *dlines, struct rcs_lines *plines)
 		ep++;
 		nbln = (int)strtol(ep, &ep, 10);
 		/* Restore the last byte of the buffer */
-		lp->l_line[lp->l_len - 1] = tmp;
+		lp->l_line[lp->l_len - 1] = last_byte;
 		if (nbln < 0)
 			errx(1,
 			    "invalid line number specification in RCS patch");
@@ -1044,7 +1044,7 @@ rcs_delta_stats(struct rcs_delta *rdp, int *ladded, int *lremoved)
 	struct rcs_line *lp;
 	int added, i, nbln, removed;
 	char op, *ep;
-	u_char tmp;
+	u_char last_byte;
 
 	added = removed = 0;
 
@@ -1059,13 +1059,13 @@ rcs_delta_stats(struct rcs_delta *rdp, int *ladded, int *lremoved)
 				    "line too short, RCS patch seems broken");
 			op = *(lp->l_line);
 			/* NUL-terminate line buffer for strtol() safety. */
-			tmp = lp->l_line[lp->l_len - 1];
+			last_byte = lp->l_line[lp->l_len - 1];
 			lp->l_line[lp->l_len - 1] = '\0';
 			(void)strtol((lp->l_line + 1), &ep, 10);
 			ep++;
 			nbln = (int)strtol(ep, &ep, 10);
 			/* Restore the last byte of the buffer */
-			lp->l_line[lp->l_len - 1] = tmp;
+			lp->l_line[lp->l_len - 1] = last_byte;
 			if (nbln < 0)
 				errx(1, "invalid line number specification "
 				    "in RCS patch");

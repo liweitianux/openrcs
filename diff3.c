@@ -415,7 +415,7 @@ ed_patch_lines(struct rcs_lines *dlines, struct rcs_lines *plines)
 	char op, *ep;
 	struct rcs_line *sort, *lp, *dlp, *ndlp, *insert_after;
 	int start, end, i, lineno;
-	u_char tmp;
+	u_char last_byte;
 
 	dlp = TAILQ_FIRST(&(dlines->l_lines));
 	lp = TAILQ_FIRST(&(plines->l_lines));
@@ -428,7 +428,7 @@ ed_patch_lines(struct rcs_lines *dlines, struct rcs_lines *plines)
 			continue;
 
 		/* NUL-terminate line buffer for strtol() safety. */
-		tmp = lp->l_line[lp->l_len - 1];
+		last_byte = lp->l_line[lp->l_len - 1];
 		lp->l_line[lp->l_len - 1] = '\0';
 
 		/* len - 1 is NUL terminator so we use len - 2 for 'op' */
@@ -436,7 +436,7 @@ ed_patch_lines(struct rcs_lines *dlines, struct rcs_lines *plines)
 		start = (int)strtol(lp->l_line, &ep, 10);
 
 		/* Restore the last byte of the buffer */
-		lp->l_line[lp->l_len - 1] = tmp;
+		lp->l_line[lp->l_len - 1] = last_byte;
 
 		if (op == 'a') {
 			if (start > dlines->l_nblines ||

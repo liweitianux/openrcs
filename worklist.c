@@ -89,7 +89,7 @@ worklist_clean(struct wklhead *list, void (*cb)(struct worklist *))
 	struct worklist *wkl;
 
 	SLIST_FOREACH(wkl, list, wkl_list)
-	    cb(wkl);
+		cb(wkl);
 }
 
 void
