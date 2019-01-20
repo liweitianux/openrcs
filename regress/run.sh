@@ -1,6 +1,10 @@
 #!/bin/sh
 
-MAKE="${MAKE:-make}"
+if [ "$(uname -s)" = "Linux" ]; then
+	MAKE="${MAKE:-bmake}"
+else
+	MAKE="${MAKE:-make}"
+fi
 LOG="${LOG:-${PWD}/regress.log}"
 
 PROGS="ci co merge rcs rcsclean rcsdiff rcsmerge rlog"
