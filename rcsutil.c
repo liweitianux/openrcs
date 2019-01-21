@@ -333,8 +333,9 @@ char *
 rcs_prompt(const char *prompt, int flags)
 {
 	BUF *bp;
-	size_t len;
-	char *buf;
+	char *line = NULL;
+	size_t linecap = 0;
+	ssize_t len;
 
 	if (!(flags & INTERACTIVE) && isatty(STDIN_FILENO))
 		flags |= INTERACTIVE;
@@ -345,17 +346,18 @@ rcs_prompt(const char *prompt, int flags)
 	if (flags & INTERACTIVE)
 		(void)fprintf(stderr, ">> ");
 	clearerr(stdin);
-	while ((buf = fgetln(stdin, &len)) != NULL) {
+	while ((len = getline(&line, &linecap, stdin)) > 0) {
 		/* The last line may not be EOL terminated. */
-		if (buf[0] == '.' && (len == 1 || buf[1] == '\n'))
+		if (line[0] == '.' && (len == 1 || line[1] == '\n'))
 			break;
 		else
-			buf_append(bp, buf, len);
+			buf_append(bp, line, len);
 
 		if (flags & INTERACTIVE)
 			(void)fprintf(stderr, ">> ");
 	}
 	buf_putc(bp, '\0');
+	free(line);
 
 	return (buf_release(bp));
 }
