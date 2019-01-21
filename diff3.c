@@ -131,8 +131,6 @@ static char f1mark[PATH_MAX], f3mark[PATH_MAX];	/* markers for -E and -X */
 
 static int duplicate(struct range *, struct range *);
 static int edit(struct diff *, int, int);
-static char *getchange(FILE *);
-static char *get_line(FILE *, size_t *);
 static int number(char **);
 static ssize_t readin(char *, struct diff **);
 static int skip(int, int, char *);
@@ -533,12 +531,21 @@ readin(char *name, struct diff **dd)
 {
 	int a, b, c, d;
 	char kind, *p;
+	char *line = NULL;
+	size_t linecap = 0;
 	size_t i;
+	ssize_t len;
 
 	fp[0] = fopen(name, "r");
 	if (fp[0] == NULL)
 		return (-1);
-	for (i = 0; (p = getchange(fp[0])); i++) {
+
+	i = 0;
+	while ((len = getline(&line, &linecap, fp[0])) > 0) {
+		if (!isdigit((unsigned char)line[0]))
+			continue;
+
+		p = line;
 		if (i >= szchanges - 1)
 			increase();
 		a = b = number(&p);
@@ -562,7 +569,9 @@ readin(char *name, struct diff **dd)
 		(*dd)[i].old.to = b;
 		(*dd)[i].new.from = c;
 		(*dd)[i].new.to = d;
+		i++;
 	}
+	free(line);
 
 	if (i) {
 		(*dd)[i].old.from = (*dd)[i-1].old.to;
@@ -584,47 +593,6 @@ number(char **lc)
 		nn = nn*10 + *(*lc)++ - '0';
 
 	return (nn);
-}
-
-static char *
-getchange(FILE *b)
-{
-	char *line;
-
-	while ((line = get_line(b, NULL))) {
-		if (isdigit((unsigned char)line[0]))
-			return (line);
-	}
-
-	return (NULL);
-}
-
-static char *
-get_line(FILE *b, size_t *n)
-{
-	char *cp;
-	size_t len;
-	static char *buf;
-	static size_t bufsize;
-
-	if ((cp = fgetln(b, &len)) == NULL)
-		return (NULL);
-
-	if (cp[len - 1] != '\n')
-		len++;
-	if (len + 1 > bufsize) {
-		do {
-			bufsize += 1024;
-		} while (len + 1 > bufsize);
-		buf = xreallocarray(buf, 1, bufsize);
-	}
-	memcpy(buf, cp, len - 1);
-	buf[len - 1] = '\n';
-	buf[len] = '\0';
-	if (n != NULL)
-		*n = len;
-
-	return (buf);
 }
 
 static int
@@ -803,16 +771,22 @@ keep(int i, struct range *rnew)
 static int
 skip(int i, int from, char *pr)
 {
-	size_t j, n;
-	char *line;
+	ssize_t len;
+	size_t n;
+	size_t linecap = 0;
+	char *line = NULL;
 
-	for (n = 0; cline[i] < from - 1; n += j) {
-		if ((line = get_line(fp[i], &j)) == NULL)
+	for (n = 0; cline[i] < from - 1; n += len) {
+		len = getline(&line, &linecap, fp[i]);
+		if (len <= 0) {
+			free(line);
 			return (-1);
+		}
 		if (pr != NULL)
 			diff_output("%s%s", pr, line);
 		cline[i]++;
 	}
+	free(line);
 	return ((int) n);
 }
 
