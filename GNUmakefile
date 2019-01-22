@@ -55,4 +55,7 @@ install:
 		cp -v $$f $(PREFIX)/share/man/man1; \
 	done; true
 
-.PHONY: all clean install
+test: $(PROG)
+	cd regress; sh run-tests.sh
+
+.PHONY: all clean install test
