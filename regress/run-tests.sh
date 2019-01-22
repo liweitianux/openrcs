@@ -750,17 +750,18 @@ while [ -n "$1" ]; do
     fi
 done
 
+echo ""
+echo "Clean up ..."
+clean
+rm -f ${PROGS}
+
 FAILED="${FAILED## }"
 if [ -n "${FAILED}" ]; then
     echo ""
     echo "*************"
     echo "Failed tests:"
     echo "*************"
-    echo ${FAILED} | tr ' ' '\n' | cat -n
+    echo ${FAILED} | tr ' ' '\n' | nl
 else
     echo "=== ALL SUCCEEDED ==="
 fi
-
-echo "Clean up ..."
-clean
-rm -f ${PROGS}
