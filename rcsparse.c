@@ -150,7 +150,7 @@ static int	rcsparse(RCSFILE *, struct rcs_section *);
 static void	rcsparse_growbuf(RCSFILE *);
 static int	rcsparse_string(RCSFILE *, int);
 static int	rcsparse_token(RCSFILE *, int);
-static void	rcsparse_warnx(RCSFILE *, char *, ...);
+static void	rcsparse_warnx(RCSFILE *, const char *, ...);
 static int	valid_login(const char *);
 static int	valid_commitid(const char *);
 
@@ -392,7 +392,7 @@ rcsparse_desc(RCSFILE *rfp)
  * Always returns 0.
  */
 static int
-rcsparse_deltarevision(RCSFILE *rfp, struct rcs_pdata *pdp)
+rcsparse_deltarevision(RCSFILE *rfp __unused, struct rcs_pdata *pdp)
 {
 	struct rcs_delta *rdp;
 
@@ -764,7 +764,7 @@ rcsparse_locks(RCSFILE *rfp, struct rcs_pdata *pdp)
  * Returns 0 on success or 1 on failure.
  */
 static int
-rcsparse_strict(RCSFILE *rfp, struct rcs_pdata *pdp)
+rcsparse_strict(RCSFILE *rfp, struct rcs_pdata *pdp __unused)
 {
 	rfp->rf_flags |= RCS_SLOCK;
 
@@ -1256,7 +1256,7 @@ kw_cmp(const void *k, const void *e)
 }
 
 static void
-rcsparse_warnx(RCSFILE *rfp, char *fmt, ...)
+rcsparse_warnx(RCSFILE *rfp, const char *fmt, ...)
 {
 	struct rcs_pdata *pdp;
 	va_list ap;

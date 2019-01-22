@@ -91,6 +91,7 @@ merge_main(int argc, char **argv)
 		label[labels] = argv[labels];
 
 	/* XXX handle labels */
+	(void)label;  /* suppress the warning at the moment */
 	if ((bp = merge_diff3(argv, flags)) == NULL)
 		errx(D_ERROR, "failed to merge");
 

@@ -46,9 +46,9 @@ char	*rcs_suffixes = RCS_DEFAULT_SUFFIX;
 char	*rcs_tmpdir = RCS_TMPDIR_DEFAULT;
 
 struct rcs_prog {
-	char	*prog_name;
-	int	(*prog_hdlr)(int, char **);
-	void	(*prog_usage)(void);
+	const char	*prog_name;
+	int		(*prog_hdlr)(int, char **);
+	void		(*prog_usage)(void);
 } programs[] = {
 	{ "rcs",	rcs_main,	rcs_usage	},
 	{ "ci",		checkin_main,	checkin_usage   },
@@ -68,7 +68,7 @@ static void  rcs_attach_symbol(RCSFILE *, const char *);
 
 /* ARGSUSED */
 void
-sighdlr(int sig)
+sighdlr(int sig __unused)
 {
 	worklist_clean(&temp_files, worklist_unlink);
 	_exit(1);
