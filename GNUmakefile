@@ -6,8 +6,9 @@ SRCS=	ci.c co.c ident.c merge.c rcsclean.c rcsdiff.c rcsmerge.c rcsparse.c \
 SRCS+=	date.c
 OBJS=	$(SRCS:.c=.o)
 
-CFLAGS?=-O -std=gnu99 -D_GNU_SOURCE -Wall -Wextra
+CFLAGS?=-O -std=c99 -pedantic -D_GNU_SOURCE
 CFLAGS+=-D__unused="__attribute__((unused))"
+CFLAGS+=-Wall -Wextra
 CFLAGS+=-I.
 CFLAGS+=$(shell pkg-config --cflags libbsd-overlay)
 LIBS?=	$(shell pkg-config --libs libbsd-overlay)
