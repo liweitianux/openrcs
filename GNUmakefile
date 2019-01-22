@@ -9,6 +9,11 @@ OBJS=	$(SRCS:.c=.o)
 CFLAGS?=-O -std=c99 -pedantic -D_GNU_SOURCE
 CFLAGS+=-D__unused="__attribute__((unused))"
 CFLAGS+=-Wall -Wextra
+CFLAGS+=-Wduplicated-cond -Wduplicated-branches -Wlogical-op
+CFLAGS+=-Wrestrict -Wnull-dereference -Wshadow -Wformat=2
+CFLAGS+=-Wwrite-strings -Wcast-qual -Wcast-align
+#CFLAGS+=-Wconversion
+
 CFLAGS+=-I.
 CFLAGS+=$(shell pkg-config --cflags libbsd-overlay)
 LIBS?=	$(shell pkg-config --libs libbsd-overlay)
