@@ -25,6 +25,7 @@
  */
 
 #include <ctype.h>
+#include <inttypes.h>
 #include <err.h>
 #include <limits.h>
 #include <stdlib.h>
@@ -37,7 +38,6 @@
 #define MINIMUM(a, b)	(((a) < (b)) ? (a) : (b))
 
 static void	 rcsnum_setsize(RCSNUM *, unsigned int);
-static char	*rcsnum_itoa(uint16_t, char *, size_t);
 
 int rcsnum_flags;
 
@@ -128,44 +128,22 @@ char *
 rcsnum_tostr(const RCSNUM *nump, char *buf, size_t blen)
 {
 	unsigned int i;
-	char tmp[8];
+	char tmp[8];  /* enough to hold a dot and a uint16_t */
 
-	if (nump == NULL || nump->rn_len == 0) {
-		buf[0] = '\0';
+	memset(buf, 0, blen);
+	if (nump == NULL || nump->rn_len == 0)
 		return (buf);
-	}
 
-	if (strlcpy(buf, rcsnum_itoa(nump->rn_id[0], buf, blen), blen) >= blen)
+	snprintf(tmp, sizeof(tmp), "%"PRIu16, nump->rn_id[0]);
+	if (strlcpy(buf, tmp, blen) >= blen)
 		errx(1, "rcsnum_tostr: string truncated");
 	for (i = 1; i < nump->rn_len; i++) {
-		const char *str;
-
-		str = rcsnum_itoa(nump->rn_id[i], tmp, sizeof(tmp));
-		if (strlcat(buf, ".", blen) >= blen ||
-		    strlcat(buf, str, blen) >= blen)
+		snprintf(tmp, sizeof(tmp), ".%"PRIu16, nump->rn_id[i]);
+		if (strlcat(buf, tmp, blen) >= blen)
 			errx(1, "rcsnum_tostr: string truncated");
 	}
 
 	return (buf);
-}
-
-static char *
-rcsnum_itoa(uint16_t num, char *buf, size_t len)
-{
-	uint16_t i;
-	char *p;
-
-	if (num == 0)
-		return "0";
-
-	p = buf + len - 1;
-	i = num;
-	memset(buf, 0, len);
-	while (i) {
-		*--p = '0' + (i % 10);
-		i /= 10;
-	}
-	return (p);
 }
 
 /*
