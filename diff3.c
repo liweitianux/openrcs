@@ -133,7 +133,7 @@ static int duplicate(struct range *, struct range *);
 static int edit(struct diff *, int, int);
 static int number(char **);
 static ssize_t readin(char *, struct diff **);
-static int skip(int, int, char *);
+static int skip(int, int, const char *);
 static int edscript(int);
 static int merge(size_t, size_t);
 static void change(int, struct range *, int);
@@ -769,7 +769,7 @@ keep(int i, struct range *rnew)
  * print all skipped stuff with string pr as a prefix.
  */
 static int
-skip(int i, int from, char *pr)
+skip(int i, int from, const char *pr)
 {
 	ssize_t len;
 	size_t n;

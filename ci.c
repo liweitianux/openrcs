@@ -113,7 +113,7 @@ checkin_main(int argc, char **argv)
 	int fd;
 	int i, ch, status;
 	int base_flags, base_openflags;
-	char *rev_str;
+	const char *rev_str;
 	struct checkin_params pb;
 
 	pb.date = DATE_NOW;

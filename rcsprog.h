@@ -78,8 +78,8 @@ extern const char	rcs_version[];
 
 extern int	 rcs_optind;
 extern char	*rcs_optarg;
-extern char	*rcs_suffixes;
-extern char	*rcs_tmpdir;
+extern const char	*rcs_suffixes;
+extern const char	*rcs_tmpdir;
 extern struct wklhead temp_files;
 
 /* date.y */

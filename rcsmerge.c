@@ -39,7 +39,7 @@ rcsmerge_main(int argc, char **argv)
 {
 	int fd, ch, flags, kflag, status;
 	char fpath[PATH_MAX], r1[RCS_REV_BUFSZ], r2[RCS_REV_BUFSZ];
-	char *rev_str1, *rev_str2;
+	const char *rev_str1, *rev_str2;
 	RCSFILE *file;
 	RCSNUM *rev1, *rev2;
 	BUF *bp;

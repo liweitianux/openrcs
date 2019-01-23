@@ -176,7 +176,7 @@ struct context_vec {
 
 static void	 output(FILE *, FILE *, int);
 static void	 check(FILE *, FILE *, int);
-static void	 range(int, int, char *);
+static void	 range(int, int, const char *);
 static void	 uni_range(int, int);
 static void	 dump_context_vec(FILE *, FILE *, int);
 static void	 dump_unified_vec(FILE *, FILE *, int);
@@ -824,7 +824,7 @@ output(FILE *f1, FILE *f2, int flags)
 }
 
 static void
-range(int a, int b, char *separator)
+range(int a, int b, const char *separator)
 {
 	diff_output("%d", a > b ? b : a);
 	if (a < b)
@@ -1155,7 +1155,7 @@ match_function(const long *f, int pos, FILE *fp)
 	unsigned char buf[FUNCTION_CONTEXT_SIZE];
 	size_t nc;
 	int last = lastline;
-	char *state = NULL;
+	const char *state = NULL;
 
 	lastline = pos;
 	while (pos > last) {

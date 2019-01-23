@@ -48,7 +48,7 @@ int
 rcsclean_main(int argc, char **argv)
 {
 	int i, ch;
-	char *rev_str;
+	const char *rev_str;
 	DIR *dirp;
 	struct dirent *dp;
 

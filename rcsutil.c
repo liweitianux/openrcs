@@ -279,7 +279,7 @@ rcs_choosefile(const char *filename, char *out, size_t len)
  * Set <str> to <new_str>.  Print warning if <str> is redefined.
  */
 void
-rcs_setrevstr(char **str, char *new_str)
+rcs_setrevstr(const char **str, const char *new_str)
 {
 	if (new_str == NULL)
 		return;
@@ -293,7 +293,7 @@ rcs_setrevstr(char **str, char *new_str)
  * If both are set, error out.
  */
 void
-rcs_setrevstr2(char **str1, char **str2, char *new_str)
+rcs_setrevstr2(const char **str1, const char **str2, const char *new_str)
 {
 	if (new_str == NULL)
 		return;
@@ -368,7 +368,7 @@ rcs_rev_select(RCSFILE *file, const char *range)
 	int i;
 	unsigned int nrev;
 	const char *ep;
-	char *lstr, *rstr;
+	const char *lstr, *rstr;
 	struct rcs_delta *rdp;
 	struct rcs_argvector *revargv, *revrange;
 	RCSNUM lnum, rnum;

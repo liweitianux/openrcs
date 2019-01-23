@@ -49,15 +49,14 @@ checkout_main(int argc, char **argv)
 	int fd, i, ch, flags, kflag, ret;
 	RCSNUM *rev;
 	RCSFILE *file;
-	const char *author, *date, *state;
+	const char *author, *date, *state, *rev_str;
 	char fpath[PATH_MAX];
-	char *rev_str, *username;
+	char *username;
 	time_t rcs_mtime = -1;
 
 	flags = ret = 0;
 	kflag = RCS_KWEXP_ERR;
-	rev_str = NULL;
-	author = date = state = NULL;
+	rev_str = author = date = state = NULL;
 
 	while ((ch = rcs_getopt(argc, argv, CO_OPTSTRING)) != -1) {
 		switch (ch) {

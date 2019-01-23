@@ -51,7 +51,8 @@ rcsdiff_main(int argc, char **argv)
 	int fd, i, ch, dflags, status;
 	RCSNUM *rev1, *rev2;
 	RCSFILE *file;
-	char fpath[PATH_MAX], *rev_str1, *rev_str2;
+	char fpath[PATH_MAX];
+	const char *rev_str1, *rev_str2;
 	const char *errstr;
 
 	rev1 = rev2 = NULL;

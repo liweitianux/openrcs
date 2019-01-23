@@ -55,9 +55,9 @@ static char *slist = NULL;
 static char *wlist = NULL;
 static char *revisions = NULL;
 static char *rlog_dates = NULL;
-static char *revsep = "----------------------------";
-static char *revend = "====================================================="
-    "========================";
+static const char *revsep = "----------------------------";
+static const char *revend =
+    "=============================================================================";
 
 __dead2 void
 rlog_usage(void)
@@ -437,7 +437,8 @@ rlog_rev_print(struct rcs_delta *rdp)
 {
 	int i, found;
 	struct tm t;
-	char *author, numb[RCS_REV_BUFSZ], *fmt, timeb[RCS_TIME_BUFSZ];
+	const char *fmt;
+	char *author, numb[RCS_REV_BUFSZ], timeb[RCS_TIME_BUFSZ];
 	struct rcs_argvector *largv, *sargv, *wargv;
 	struct rcs_branch *rb;
 	struct rcs_delta *nrdp;

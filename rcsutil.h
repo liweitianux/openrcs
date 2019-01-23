@@ -57,8 +57,9 @@ RCSNUM			*rcs_getrevnum(const char *, RCSFILE *);
 char			*rcs_prompt(const char *, int);
 unsigned int		 rcs_rev_select(RCSFILE *, const char *);
 int			 rcs_set_description(RCSFILE *, const char *, int);
-void			 rcs_setrevstr(char **, char *);
-void			 rcs_setrevstr2(char **, char **, char *);
+void			 rcs_setrevstr(const char **, const char *);
+void			 rcs_setrevstr2(const char **, const char **,
+			    const char *);
 BUF			*rcs_patchfile(unsigned char *, size_t,
 			    unsigned char *, size_t,
 			    int (*p)(struct rcs_lines *,struct rcs_lines *));

@@ -42,8 +42,8 @@ const char rcs_version[] = "OpenRCS 4.5";
 int	 rcsflags;
 int	 rcs_optind;
 char	*rcs_optarg;
-char	*rcs_suffixes = RCS_DEFAULT_SUFFIX;
-char	*rcs_tmpdir = RCS_TMPDIR_DEFAULT;
+const char	*rcs_suffixes = RCS_DEFAULT_SUFFIX;
+const char	*rcs_tmpdir = RCS_TMPDIR_DEFAULT;
 
 struct rcs_prog {
 	const char	*prog_name;
