@@ -155,7 +155,7 @@ merge_diff3(char **av, int flags)
 	int argc;
 	char *argv[5], *dp13, *dp23, *path1, *path2, *path3;
 	BUF *b1, *b2, *b3, *d1, *d2, *diffb;
-	u_char *data, *patch;
+	unsigned char *data, *patch;
 	size_t dlen, plen;
 
 	b1 = b2 = b3 = d1 = d2 = diffb = NULL;
@@ -263,7 +263,7 @@ rcs_diff3(RCSFILE *rf, char *workfile, RCSNUM *rev1, RCSNUM *rev2, int flags)
 	char *dp13, *dp23, *path1, *path2, *path3;
 	BUF *b1, *b2, *b3, *d1, *d2, *diffb;
 	size_t dlen, plen;
-	u_char *data, *patch;
+	unsigned char *data, *patch;
 
 	b1 = b2 = b3 = d1 = d2 = diffb = NULL;
 	dp13 = dp23 = path1 = path2 = path3 = NULL;
@@ -415,7 +415,7 @@ ed_patch_lines(struct rcs_lines *dlines, struct rcs_lines *plines)
 	char op, *ep;
 	struct rcs_line *sort, *lp, *dlp, *ndlp, *insert_after;
 	int start, end, i, lineno;
-	u_char last_byte;
+	unsigned char last_byte;
 
 	dlp = TAILQ_FIRST(&(dlines->l_lines));
 	lp = TAILQ_FIRST(&(plines->l_lines));

@@ -474,9 +474,9 @@ rcs_set_description(RCSFILE *file, const char *in, int flags)
  * Split the contents of a file into a list of lines.
  */
 struct rcs_lines *
-rcs_splitlines(u_char *data, size_t len)
+rcs_splitlines(unsigned char *data, size_t len)
 {
-	u_char *c, *p;
+	unsigned char *c, *p;
 	struct rcs_lines *lines;
 	struct rcs_line *lp;
 	size_t i, tlen;
@@ -519,8 +519,8 @@ rcs_freelines(struct rcs_lines *lines)
 }
 
 BUF *
-rcs_patchfile(u_char *data, size_t dlen, u_char *patch, size_t plen,
-    int (*p)(struct rcs_lines *, struct rcs_lines *))
+rcs_patchfile(unsigned char *data, size_t dlen, unsigned char *patch,
+	      size_t plen, int (*p)(struct rcs_lines *, struct rcs_lines *))
 {
 	struct rcs_lines *dlines, *plines;
 	struct rcs_line *lp;

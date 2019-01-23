@@ -30,7 +30,7 @@
 #include "rcs.h"
 
 struct rcs_line {
-	u_char			*l_line;
+	unsigned char		*l_line;
 	int			 l_lineno;
 	size_t			 l_len;
 	TAILQ_ENTRY(rcs_line)	 l_list;
@@ -59,9 +59,10 @@ unsigned int		 rcs_rev_select(RCSFILE *, const char *);
 int			 rcs_set_description(RCSFILE *, const char *, int);
 void			 rcs_setrevstr(char **, char *);
 void			 rcs_setrevstr2(char **, char **, char *);
-BUF			*rcs_patchfile(u_char *, size_t, u_char *, size_t,
+BUF			*rcs_patchfile(unsigned char *, size_t,
+			    unsigned char *, size_t,
 			    int (*p)(struct rcs_lines *,struct rcs_lines *));
-struct rcs_lines	*rcs_splitlines(u_char *, size_t);
+struct rcs_lines	*rcs_splitlines(unsigned char *, size_t);
 void			 rcs_freelines(struct rcs_lines *);
 int			 rcs_yesno(int);
 struct rcs_argvector	*rcs_strsplit(const char *, const char *);

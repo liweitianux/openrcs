@@ -187,7 +187,7 @@ struct rcs_delta {
 	char		*rd_commitid;
 	char		*rd_log;
 	char		*rd_locker;
-	u_char		*rd_text;
+	unsigned char	*rd_text;
 	size_t		 rd_tlen;
 
 	TAILQ_HEAD(, rcs_branch)	rd_branches;
@@ -253,7 +253,7 @@ void			 rcs_delta_stats(struct rcs_delta *, int *, int *);
 
 int	rcs_kflag_get(const char *);
 void	rcs_kflag_usage(void);
-int	rcs_kw_expand(RCSFILE *, u_char *, size_t, size_t *);
+int	rcs_kw_expand(RCSFILE *, unsigned char *, size_t, size_t *);
 
 RCSNUM	*rcsnum_alloc(void);
 RCSNUM	*rcsnum_parse(const char *);

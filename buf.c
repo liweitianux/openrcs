@@ -44,9 +44,9 @@
 
 struct buf {
 	/* buffer handle, buffer size, and data length */
-	u_char	*cb_buf;
-	size_t	 cb_size;
-	size_t	 cb_len;
+	unsigned char	*cb_buf;
+	size_t		 cb_size;
+	size_t		 cb_len;
 };
 
 #define SIZE_LEFT(b)	(b->cb_size - b->cb_len)
@@ -88,7 +88,7 @@ buf_load(const char *path)
 	int fd;
 	ssize_t ret;
 	size_t len;
-	u_char *bp;
+	unsigned char *bp;
 	struct stat st;
 	BUF *buf;
 
@@ -159,7 +159,7 @@ buf_release(BUF *b)
 	return (tmp);
 }
 
-u_char *
+unsigned char *
 buf_get(BUF *b)
 {
 	return (b->cb_buf);
@@ -181,12 +181,12 @@ buf_empty(BUF *b)
 void
 buf_putc(BUF *b, int c)
 {
-	u_char *bp;
+	unsigned char *bp;
 
 	if (SIZE_LEFT(b) == 0)
 		buf_grow(b, BUF_INCR);
 	bp = b->cb_buf + b->cb_len;
-	*bp = (u_char)c;
+	*bp = (unsigned char)c;
 	b->cb_len++;
 }
 
@@ -200,9 +200,9 @@ buf_puts(BUF *b, const char *str)
 }
 
 /*
- * Return u_char at buffer position <pos>.
+ * Return unsigned char at buffer position <pos>.
  */
-u_char
+unsigned char
 buf_getc(BUF *b, size_t pos)
 {
 	return (b->cb_buf[pos]);
@@ -218,7 +218,7 @@ size_t
 buf_append(BUF *b, const void *data, size_t len)
 {
 	size_t left, rlen;
-	u_char *bp;
+	unsigned char *bp;
 
 	left = SIZE_LEFT(b);
 	rlen = len;
@@ -247,7 +247,7 @@ buf_len(BUF *b)
 int
 buf_write_fd(BUF *b, int fd)
 {
-	u_char *bp;
+	unsigned char *bp;
 	size_t len;
 	ssize_t ret;
 

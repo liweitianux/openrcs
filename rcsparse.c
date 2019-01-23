@@ -603,7 +603,7 @@ rcsparse_text(RCSFILE *rfp, struct rcs_pdata *pdp)
 
 	pdp->rp_delta->rd_tlen = pdp->rp_tlen - 1;
 	if (pdp->rp_delta->rd_tlen == 0) {
-		pdp->rp_delta->rd_text = (u_char *)xstrdup("");
+		pdp->rp_delta->rd_text = (unsigned char *)xstrdup("");
 	} else {
 		pdp->rp_delta->rd_text = xmalloc(pdp->rp_delta->rd_tlen);
 		memcpy(pdp->rp_delta->rd_text, pdp->rp_buf,

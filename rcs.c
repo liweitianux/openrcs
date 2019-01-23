@@ -74,7 +74,7 @@ int		rcs_patch_lines(struct rcs_lines *, struct rcs_lines *);
 static int	rcs_movefile(char *, char *, mode_t, unsigned int);
 
 static void	rcs_freedelta(struct rcs_delta *);
-static void	rcs_strprint(const u_char *, size_t, FILE *);
+static void	rcs_strprint(const unsigned char *, size_t, FILE *);
 
 static BUF	*rcs_expand_keywords(char *, struct rcs_delta *, BUF *, int);
 
@@ -277,7 +277,7 @@ rcs_write(RCSFILE *rfp)
 
 	fputs("comment\t@", fp);
 	if (rfp->rf_comment != NULL) {
-		rcs_strprint((const u_char *)rfp->rf_comment,
+		rcs_strprint((const unsigned char *)rfp->rf_comment,
 		    strlen(rfp->rf_comment), fp);
 		fputs("@;\n", fp);
 	} else
@@ -285,7 +285,7 @@ rcs_write(RCSFILE *rfp)
 
 	if (rfp->rf_expand != NULL) {
 		fputs("expand @", fp);
-		rcs_strprint((const u_char *)rfp->rf_expand,
+		rcs_strprint((const unsigned char *)rfp->rf_expand,
 		    strlen(rfp->rf_expand), fp);
 		fputs("@;\n", fp);
 	}
@@ -313,7 +313,7 @@ rcs_write(RCSFILE *rfp)
 
 	fputs("\ndesc\n@", fp);
 	if (rfp->rf_desc != NULL && (len = strlen(rfp->rf_desc)) > 0) {
-		rcs_strprint((const u_char *)rfp->rf_desc, len, fp);
+		rcs_strprint((const unsigned char *)rfp->rf_desc, len, fp);
 		if (rfp->rf_desc[len-1] != '\n')
 			fputc('\n', fp);
 	}
@@ -326,7 +326,7 @@ rcs_write(RCSFILE *rfp)
 		fputs("log\n@", fp);
 		if (rdp->rd_log != NULL) {
 			len = strlen(rdp->rd_log);
-			rcs_strprint((const u_char *)rdp->rd_log, len, fp);
+			rcs_strprint((const unsigned char *)rdp->rd_log, len, fp);
 			if (len == 0 || rdp->rd_log[len-1] != '\n')
 				fputc('\n', fp);
 		}
@@ -799,7 +799,7 @@ rcs_patch_lines(struct rcs_lines *dlines, struct rcs_lines *plines)
 	char op, *ep;
 	struct rcs_line *lp, *dlp, *ndlp;
 	int i, lineno, nbln;
-	u_char last_byte;
+	unsigned char last_byte;
 
 	dlp = TAILQ_FIRST(&(dlines->l_lines));
 	lp = TAILQ_FIRST(&(plines->l_lines));
@@ -906,7 +906,7 @@ rcs_getrev(RCSFILE *rfp, RCSNUM *frev)
 	BUF *rbuf;
 	struct rcs_delta *rdp = NULL;
 	struct rcs_branch *rb;
-	u_char *data, *patch;
+	unsigned char *data, *patch;
 
 	if (rfp->rf_head == NULL)
 		return (NULL);
@@ -1044,7 +1044,7 @@ rcs_delta_stats(struct rcs_delta *rdp, int *ladded, int *lremoved)
 	struct rcs_line *lp;
 	int added, i, nbln, removed;
 	char op, *ep;
-	u_char last_byte;
+	unsigned char last_byte;
 
 	added = removed = 0;
 
@@ -1445,9 +1445,9 @@ rcs_freedelta(struct rcs_delta *rdp)
  * binary data.
  */
 static void
-rcs_strprint(const u_char *str, size_t slen, FILE *stream)
+rcs_strprint(const unsigned char *str, size_t slen, FILE *stream)
 {
-	const u_char *ap, *ep, *sp;
+	const unsigned char *ap, *ep, *sp;
 
 	if (slen == 0)
 		return;
@@ -1458,7 +1458,7 @@ rcs_strprint(const u_char *str, size_t slen, FILE *stream)
 		ap = memchr(sp, '@', ep - sp);
 		if (ap == NULL)
 			ap = ep;
-		(void)fwrite(sp, sizeof(u_char), ap - sp + 1, stream);
+		(void)fwrite(sp, sizeof(unsigned char), ap - sp + 1, stream);
 
 		if (*ap == '@')
 			putc('@', stream);
@@ -1477,9 +1477,9 @@ static BUF *
 rcs_expand_keywords(char *rcsfile_in, struct rcs_delta *rdp, BUF *bp, int mode)
 {
 	BUF *newbuf;
-	u_char *c, *kw, *fin;
 	char buf[256], *tmpf, resolved[PATH_MAX], *rcsfile;
-	u_char *line, *line2;
+	unsigned char *c, *kw, *fin;
+	unsigned char *line, *line2;
 	unsigned int i, j;
 	int kwtype;
 	int found;
@@ -1703,7 +1703,7 @@ int
 rcs_deltatext_set(RCSFILE *rfp, RCSNUM *rev, BUF *bp)
 {
 	size_t len;
-	u_char *dtext;
+	unsigned char *dtext;
 	struct rcs_delta *rdp;
 
 	/* Write operations require full parsing */
