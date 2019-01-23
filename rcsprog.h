@@ -80,7 +80,6 @@ extern int	 rcs_optind;
 extern char	*rcs_optarg;
 extern const char	*rcs_suffixes;
 extern const char	*rcs_tmpdir;
-extern struct wklhead temp_files;
 
 /* date.y */
 time_t  date_parse(const char *);
@@ -117,7 +116,6 @@ __dead2 void	rcsmerge_usage(void);
 
 /* rcsprog.c */
 int		build_cmd(char ***, char **, int);
-int		rcs_getopt(int, char **, const char *);
 int		rcs_main(int, char **);
 __dead2 void	rcs_usage(void);
 void		(*usage)(void);

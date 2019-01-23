@@ -76,7 +76,9 @@ static time_t	yyRelSeconds;
 
 static int	yyerror(const char *);
 static int	yylex(void);
+/*
 static int	yyparse(void);
+*/
 static int	lookup(char *);
 
 %}
