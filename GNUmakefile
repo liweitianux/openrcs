@@ -10,7 +10,7 @@ CFLAGS?=-O -std=c99 -pedantic -D_GNU_SOURCE
 CFLAGS+=-D__unused="__attribute__((unused))"
 CFLAGS+=-Wall -Wextra
 CFLAGS+=-Wduplicated-cond -Wduplicated-branches -Wlogical-op
-CFLAGS+=-Wrestrict -Wnull-dereference -Wshadow -Wformat=2
+CFLAGS+=-Wrestrict -Wnull-dereference -Wshadow -Wformat-security
 CFLAGS+=-Wwrite-strings -Wcast-qual -Wcast-align
 #CFLAGS+=-Wconversion
 
