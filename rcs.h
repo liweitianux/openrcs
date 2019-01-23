@@ -149,7 +149,7 @@ struct rcs_kw {
 
 typedef struct rcs_num {
 	u_int		 rn_len;
-	u_int16_t	*rn_id;
+	uint16_t	*rn_id;
 } RCSNUM;
 
 struct rcs_access {

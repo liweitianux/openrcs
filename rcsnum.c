@@ -37,7 +37,7 @@
 #define MINIMUM(a, b)	(((a) < (b)) ? (a) : (b))
 
 static void	 rcsnum_setsize(RCSNUM *, u_int);
-static char	*rcsnum_itoa(u_int16_t, char *, size_t);
+static char	*rcsnum_itoa(uint16_t, char *, size_t);
 
 int rcsnum_flags;
 
@@ -147,9 +147,9 @@ rcsnum_tostr(const RCSNUM *nump, char *buf, size_t blen)
 }
 
 static char *
-rcsnum_itoa(u_int16_t num, char *buf, size_t len)
+rcsnum_itoa(uint16_t num, char *buf, size_t len)
 {
-	u_int16_t i;
+	uint16_t i;
 	char *p;
 
 	if (num == 0)
@@ -240,7 +240,7 @@ rcsnum_cmp(const RCSNUM *n1, const RCSNUM *n2, u_int depth)
 int
 rcsnum_aton(const char *str, const char **ep, RCSNUM *nump)
 {
-	u_int32_t val;
+	uint32_t val;
 	const char *sp;
 	char *s;
 
