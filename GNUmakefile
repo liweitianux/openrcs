@@ -37,10 +37,13 @@ $(PROG): $(OBJS)
 	$(CC) $(CFLAGS) -o $@ $(OBJS) $(LIBS)
 
 date.c: date.y
-	yacc -o $@ $^
+	yacc -o $@ $<
+
+date: date.c xmalloc.c
+	$(CC) $(CFLAGS) -DTEST -o $@ $^
 
 clean:
-	rm -f $(PROG) $(OBJS) date.c
+	rm -f $(PROG) $(OBJS) date.c date
 
 install:
 	-mkdir -p $(PREFIX)/bin $(PREFIX)/share/man/man1
