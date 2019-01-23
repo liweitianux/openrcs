@@ -349,7 +349,7 @@ static void
 rlog_file(const char *fname, RCSFILE *file)
 {
 	char numb[RCS_REV_BUFSZ];
-	u_int nrev;
+	unsigned int nrev;
 	struct rcs_sym *sym;
 	struct rcs_access *acp;
 	struct rcs_delta *rdp;
@@ -359,7 +359,7 @@ rlog_file(const char *fname, RCSFILE *file)
 	if (rflag == 1)
 		nrev = rcs_rev_select(file, revisions);
 	else if (dflag == 1) {
-		if ((nrev = rlog_select_daterev(file, rlog_dates)) == (u_int)-1)
+		if ((nrev = rlog_select_daterev(file, rlog_dates)) == (unsigned int)-1)
 			errx(1, "invalid date: %s", rlog_dates);
 	} else
 		nrev = file->rf_ndelta;

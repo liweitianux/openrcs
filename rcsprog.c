@@ -124,7 +124,7 @@ build_cmd(char ***cmd_argv, char **argv, int argc)
 int
 main(int argc, char **argv)
 {
-	u_int i;
+	unsigned int i;
 	char **cmd_argv;
 	int ret, cmd_argc;
 

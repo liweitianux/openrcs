@@ -148,7 +148,7 @@ struct rcs_kw {
 #define RCS_COMMITID_MAXLEN 64
 
 typedef struct rcs_num {
-	u_int		 rn_len;
+	unsigned int	 rn_len;
 	uint16_t	*rn_id;
 } RCSNUM;
 
@@ -180,7 +180,7 @@ TAILQ_HEAD(rcs_dlist, rcs_delta);
 struct rcs_delta {
 	RCSNUM		*rd_num;
 	RCSNUM		*rd_next;
-	u_int		 rd_flags;
+	unsigned int	 rd_flags;
 	struct tm	 rd_date;
 	char		*rd_author;
 	char		*rd_state;
@@ -196,18 +196,18 @@ struct rcs_delta {
 
 
 typedef struct rcs_file {
-	FILE	*rf_file;
-	char	*rf_path;
-	mode_t	 rf_mode;
-	u_int	 rf_flags;
+	FILE		*rf_file;
+	char		*rf_path;
+	mode_t		 rf_mode;
+	unsigned int	 rf_flags;
 
-	RCSNUM	*rf_head;
-	RCSNUM	*rf_branch;
-	char	*rf_comment;
-	char	*rf_expand;
-	char	*rf_desc;
+	RCSNUM		*rf_head;
+	RCSNUM		*rf_branch;
+	char		*rf_comment;
+	char		*rf_expand;
+	char		*rf_desc;
 
-	u_int					rf_ndelta;
+	unsigned int				rf_ndelta;
 	struct rcs_dlist			rf_delta;
 	TAILQ_HEAD(rcs_alist, rcs_access)	rf_access;
 	TAILQ_HEAD(rcs_slist, rcs_sym)		rf_symbols;
@@ -264,8 +264,8 @@ void	 rcsnum_free(RCSNUM *);
 int	 rcsnum_addmagic(RCSNUM *);
 int	 rcsnum_aton(const char *, const char **, RCSNUM *);
 char	*rcsnum_tostr(const RCSNUM *, char *, size_t);
-void	 rcsnum_cpy(const RCSNUM *, RCSNUM *, u_int);
-int	 rcsnum_cmp(const RCSNUM *, const RCSNUM *, u_int);
+void	 rcsnum_cpy(const RCSNUM *, RCSNUM *, unsigned int);
+int	 rcsnum_cmp(const RCSNUM *, const RCSNUM *, unsigned int);
 
 /* rcstime.c */
 void	 rcs_set_tz(char *, struct rcs_delta *, struct tm *);

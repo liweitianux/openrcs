@@ -526,7 +526,7 @@ stone(int *a, int n, int *b, int *c, int flags)
 {
 	int i, k, y, j, l;
 	int oldc, tc, oldl, sq;
-	u_int numtries, bound;
+	unsigned int numtries, bound;
 
 	if (flags & D_MINIMAL)
 		bound = UINT_MAX;

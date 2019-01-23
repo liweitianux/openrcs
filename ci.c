@@ -844,7 +844,7 @@ checkin_keywordscan(BUF *data, RCSNUM **rev, time_t *date, char **author,
 {
 	BUF *buf;
 	size_t left;
-	u_int j;
+	unsigned int j;
 	char *kwstr;
 	unsigned char *c, *end, *start;
 

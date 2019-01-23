@@ -362,11 +362,11 @@ rcs_prompt(const char *prompt, int flags)
 	return (buf_release(bp));
 }
 
-u_int
+unsigned int
 rcs_rev_select(RCSFILE *file, const char *range)
 {
 	int i;
-	u_int nrev;
+	unsigned int nrev;
 	const char *ep;
 	char *lstr, *rstr;
 	struct rcs_delta *rdp;

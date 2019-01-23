@@ -36,7 +36,7 @@
 
 #define MINIMUM(a, b)	(((a) < (b)) ? (a) : (b))
 
-static void	 rcsnum_setsize(RCSNUM *, u_int);
+static void	 rcsnum_setsize(RCSNUM *, unsigned int);
 static char	*rcsnum_itoa(uint16_t, char *, size_t);
 
 int rcsnum_flags;
@@ -124,7 +124,7 @@ rcsnum_free(RCSNUM *rn)
 char *
 rcsnum_tostr(const RCSNUM *nump, char *buf, size_t blen)
 {
-	u_int i;
+	unsigned int i;
 	char tmp[8];
 
 	if (nump == NULL || nump->rn_len == 0) {
@@ -172,9 +172,9 @@ rcsnum_itoa(uint16_t num, char *buf, size_t len)
  * numbers deep.  If <depth> is 0, there is no depth limit.
  */
 void
-rcsnum_cpy(const RCSNUM *nsrc, RCSNUM *ndst, u_int depth)
+rcsnum_cpy(const RCSNUM *nsrc, RCSNUM *ndst, unsigned int depth)
 {
-	u_int len;
+	unsigned int len;
 
 	len = nsrc->rn_len;
 	if (depth != 0 && len > depth)
@@ -197,10 +197,10 @@ rcsnum_cpy(const RCSNUM *nsrc, RCSNUM *ndst, u_int depth)
  * number if they are equal up to the minimum length.
  */
 int
-rcsnum_cmp(const RCSNUM *n1, const RCSNUM *n2, u_int depth)
+rcsnum_cmp(const RCSNUM *n1, const RCSNUM *n2, unsigned int depth)
 {
 	int res;
-	u_int i;
+	unsigned int i;
 	size_t slen;
 
 	slen = MINIMUM(n1->rn_len, n2->rn_len);
@@ -402,7 +402,7 @@ rcsnum_brtorev(const RCSNUM *brnum)
 }
 
 static void
-rcsnum_setsize(RCSNUM *num, u_int len)
+rcsnum_setsize(RCSNUM *num, unsigned int len)
 {
 	num->rn_id = xreallocarray(num->rn_id, len, sizeof(*(num->rn_id)));
 	num->rn_len = len;

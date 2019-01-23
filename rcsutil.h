@@ -55,7 +55,7 @@ int			 rcs_choosefile(const char *, char *, size_t);
 time_t			 rcs_get_mtime(RCSFILE *);
 RCSNUM			*rcs_getrevnum(const char *, RCSFILE *);
 char			*rcs_prompt(const char *, int);
-u_int			 rcs_rev_select(RCSFILE *, const char *);
+unsigned int		 rcs_rev_select(RCSFILE *, const char *);
 int			 rcs_set_description(RCSFILE *, const char *, int);
 void			 rcs_setrevstr(char **, char *);
 void			 rcs_setrevstr2(char **, char **, char *);

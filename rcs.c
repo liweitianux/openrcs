@@ -71,7 +71,7 @@ int rcs_errno = RCS_ERR_NOERR;
 char *timezone_flag = NULL;
 
 int		rcs_patch_lines(struct rcs_lines *, struct rcs_lines *);
-static int	rcs_movefile(char *, char *, mode_t, u_int);
+static int	rcs_movefile(char *, char *, mode_t, unsigned int);
 
 static void	rcs_freedelta(struct rcs_delta *);
 static void	rcs_strprint(const u_char *, size_t, FILE *);
@@ -354,7 +354,7 @@ rcs_write(RCSFILE *rfp)
  * Returns 0 on success, -1 on failure.
  */
 static int
-rcs_movefile(char *from, char *to, mode_t perm, u_int to_flags)
+rcs_movefile(char *from, char *to, mode_t perm, unsigned int to_flags)
 {
 	FILE *src, *dst;
 	size_t nread, nwritten;
@@ -899,7 +899,7 @@ rcs_patch_lines(struct rcs_lines *dlines, struct rcs_lines *plines)
 BUF *
 rcs_getrev(RCSFILE *rfp, RCSNUM *frev)
 {
-	u_int i, numlen;
+	unsigned int i, numlen;
 	int isbranch, lookonbranch, found;
 	size_t dlen, plen, len;
 	RCSNUM *crev, *rev, *brev;
@@ -1274,7 +1274,7 @@ rcs_rev_remove(RCSFILE *rf, RCSNUM *rev)
 struct rcs_delta *
 rcs_findrev(RCSFILE *rfp, RCSNUM *rev)
 {
-	u_int cmplen;
+	unsigned int cmplen;
 	struct rcs_delta *rdp;
 	RCSNUM *brev, *frev;
 
@@ -1480,7 +1480,7 @@ rcs_expand_keywords(char *rcsfile_in, struct rcs_delta *rdp, BUF *bp, int mode)
 	u_char *c, *kw, *fin;
 	char buf[256], *tmpf, resolved[PATH_MAX], *rcsfile;
 	u_char *line, *line2;
-	u_int i, j;
+	unsigned int i, j;
 	int kwtype;
 	int found;
 	struct tm tb;

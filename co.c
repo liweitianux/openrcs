@@ -243,7 +243,7 @@ checkout_rev(RCSFILE *file, RCSNUM *frev, const char *dst, int flags,
     const char *date)
 {
 	BUF *bp;
-	u_int i;
+	unsigned int i;
 	int fd, lcount;
 	char buf[RCS_REV_BUFSZ];
 	mode_t mode = DEFFILEMODE;
