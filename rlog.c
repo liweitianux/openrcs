@@ -211,6 +211,9 @@ rlog_select_daterev(RCSFILE *rcsfile, char *date)
 		firstdate = lastdate = -1;
 
 		first = args->argv[i];
+		if (*first == '\0')
+			first = NULL;
+
 		last = strchr(args->argv[i], '<');
 		if (last != NULL) {
 			delim = *last;
@@ -238,37 +241,38 @@ rlog_select_daterev(RCSFILE *rcsfile, char *date)
 			if ((firstdate = date_parse(first)) == -1)
 				return -1;
 			delim = '\0';
-			last = "\0";
 		} else {
 			while (*last && isspace((unsigned char)*last))
 				last++;
+			if (*last == '\0')
+				last = NULL;
 		}
 
-		if (delim == '>' && *last == '\0') {
+		if (delim == '>' && last == NULL) {
 			flags |= RLOG_DATE_EARLIER;
 			if ((firstdate = date_parse(first)) == -1)
 				return -1;
 		}
 
-		if (delim == '>' && *first == '\0' && *last != '\0') {
+		if (delim == '>' && first == NULL && last != NULL) {
 			flags |= RLOG_DATE_LATER;
 			if ((firstdate = date_parse(last)) == -1)
 				return -1;
 		}
 
-		if (delim == '<' && *last == '\0') {
+		if (delim == '<' && last == NULL) {
 			flags |= RLOG_DATE_LATER;
 			if ((firstdate = date_parse(first)) == -1)
 				return -1;
 		}
 
-		if (delim == '<' && *first == '\0' && *last != '\0') {
+		if (delim == '<' && first == NULL && last != NULL) {
 			flags |= RLOG_DATE_EARLIER;
 			if ((firstdate = date_parse(last)) == -1)
 				return -1;
 		}
 
-		if (*first != '\0' && *last != '\0') {
+		if (first != NULL && last != NULL) {
 			flags |= RLOG_DATE_RANGE;
 
 			if (delim == '<') {
