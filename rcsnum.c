@@ -67,11 +67,14 @@ rcsnum_alloc(void)
 int
 rcsnum_addmagic(RCSNUM *rn)
 {
-	if (!rn->rn_len || rn->rn_len > RCSNUM_MAXLEN - 1)
+	unsigned int rn_len = rn->rn_len;
+
+	if (rn_len == 0 || rn_len >= RCSNUM_MAXLEN)
 		return -1;
-	rcsnum_setsize(rn, rn->rn_len + 1);
-	rn->rn_id[rn->rn_len - 1] = rn->rn_id[rn->rn_len - 2];
-	rn->rn_id[rn->rn_len - 2] = 0;
+
+	rcsnum_setsize(rn, rn_len + 1);
+	rn->rn_id[rn_len - 1] = rn->rn_id[rn_len - 2];
+	rn->rn_id[rn_len - 2] = 0;
 
 	return 0;
 }
