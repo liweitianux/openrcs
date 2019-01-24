@@ -2,8 +2,9 @@
 
 PROG=	rcs
 
-WARNS?=	3
-CSTD=	c99
+WARNS?=	6
+CSTD?=	c99
+
 CFLAGS+=-I${.CURDIR}
 SRCS=	ci.c co.c ident.c merge.c rcsclean.c rcsdiff.c rcsmerge.c rcsparse.c \
 	rcsprog.c rlog.c rcsutil.c buf.c date.y diff.c diff3.c rcs.c rcsnum.c \
