@@ -874,16 +874,15 @@ date_parse(const char *p)
 }
 
 #if defined(TEST)
-/* ARGSUSED */
 int
-main(int argc, char **argv)
+main(void)
 {
 	char	buff[128];
 	time_t	d;
 
 	(void)printf("Enter date, or blank line to exit.\n\t> ");
 	(void)fflush(stdout);
-	while (fgets(buff, sizeof(buff), stdin) && buff[0]) {
+	while (fgets(buff, sizeof(buff), stdin) && buff[0] != '\n') {
 		d = date_parse(buff);
 		if (d == -1)
 			(void)printf("Bad format - couldn't convert.\n");
