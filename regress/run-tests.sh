@@ -173,15 +173,16 @@ test_ci_perm2() {
 # Testing ci with an invalid date
 test_ci_dinvalid() {
     echo 'some text for invalid date text' >> test
-    if @${CI} -q -d'an invalid date' -m'invalid date' -l test 2>/dev/null; then false; fi
-    if grep 'some text for invalid date text' test,v; then false; fi
+    ${CI} -q -d'an invalid date' -m'invalid date' -l test && return 1 || true
+    grep 'some text for invalid date text' test,v && return 1 || true
 }
 
 # Testing ci with a date older than previous revision
 test_ci_dold() {
     echo 'some text for old date test' >> test
-    if ${CI} -q -d'1990-01-12 04:00:00+00' -m'old dated revision' -l test 2>/dev/null; then false; fi
-    if grep 'some text for old date test' test,v; then false; fi
+    ${CI} -q -d'1990-01-12 04:00:00+00' -m'old dated revision' -l test &&
+        return 1 || true
+    grep 'some text for old date test' test,v && return 1 || true
 }
 
 # Testing ci -wtestuser
@@ -242,9 +243,9 @@ test_ci_Nflag() {
 
 # Trying some jiggerypokery with state
 test_ci_sflag() {
-    echo "blahblah" >>  test
-    if ${CI} -q -l -s'SPACE S' -m"state with a space" test; then false; fi
-    if grep -q 'SPACE S' test,v; then false; fi
+    echo "blahblah" >> test
+    ${CI} -q -l -s'SPACE S' -m"state with a space" test && return 1 || true
+    grep -q 'SPACE S' test,v && return 1 || true
 }
 
 # Trying to check it out
@@ -259,29 +260,29 @@ test_rcsclean() {
     ${RCSCLEAN} -q file
     ${RCSCLEAN} -q1.1 file
     ${RCSCLEAN} -qsym file
-    test -f file
+    test -f file || return 1
 
-    echo . | ${CI} -q -nsym file
+    echo "." | ${CI} -q -nsym file
     ${CO} -q file
     ${RCSCLEAN} -q file
-    test ! -f file
+    test ! -f file || return 1
     ${CO} -q file
     ${RCSCLEAN} -q1.1 file
-    test ! -f file
+    test ! -f file || return 1
     ${CO} -q file
     ${RCSCLEAN} -qsym file
-    test ! -f file
+    test ! -f file || return 1
 
     ${CO} -q -l file
     ${RCSCLEAN} -q file
-    test -f file
+    test -f file || return 1
     ${RCSCLEAN} -q -u file
-    test ! -f file
+    test ! -f file || return 1
     ${CO} -q -l file
-    echo change >> file
+    echo "change" >> file
     ${RCSCLEAN} -q file
     ${RCSCLEAN} -q -u file
-    test -f file
+    test -f file || return 1
 }
 
 test_rcsdiff() {
@@ -356,21 +357,21 @@ test_ci_xflag() {
     rm -rf RCS/file*
     touch file
     echo "." | ${CI} -q -x,abcd/,v file
-    test -e RCS/file,abcd
-    test ! -e RCS/file,v
+    test -e RCS/file,abcd || return 1
+    test ! -e RCS/file,v || return 1
 
     mv -f RCS/file,abcd RCS/file,v
     ${CO} -q -l file
     echo "revision" >> file
     echo "." | ${CI} -q -x,abcd/,v/xyz file
-    test ! -e RCS/file,abcd
-    fgrep -q revision RCS/file,v
-    test ! -e RCS/filexyz
+    test ! -e RCS/file,abcd || return 1
+    fgrep -q revision RCS/file,v || return 1
+    test ! -e RCS/filexyz || return 1
 
     touch file
     echo "more" >> file
     echo "." | ${CI} -q -x file
-    fgrep -q more RCS/file
+    fgrep -q more RCS/file || return 1
 }
 
 test_comma() {
@@ -378,8 +379,8 @@ test_comma() {
     mkdir RCS
     touch file,notext
     echo "." | ${CI} -q file,notext
-    test -e RCS/file,notext,v
-    test ! -e RCS/file,v
+    test -e RCS/file,notext,v || return 1
+    test ! -e RCS/file,v || return 1
 }
 
 # Testing 'rcs -afoo,bar,baz'
@@ -464,11 +465,11 @@ test_rcs_oflag() {
     ${CO} -q -l blah.c
     ${RCS} -q -o1.3:1.5 blah.c
     tr '\n' ' ' < blah.c,v | grep -q '[[:space:]]1.3[[:space:]]' &&
-        false || true
+        return 1 || true
     tr '\n' ' ' < blah.c,v | grep -q '[[:space:]]1.4[[:space:]]' &&
-        false || true
+        return 1 || true
     tr '\n' ' ' < blah.c,v | grep -q '[[:space:]]1.5[[:space:]]' &&
-        false || true
+        return 1 || true
 }
 
 test_rcs_lock_unlock() {
@@ -483,25 +484,25 @@ test_rcs_lock_unlock() {
     ${RLOG} file | fgrep -x -A 1 'locks: strict' | head -n 2 | fgrep -q 1.2
     ${RCS} -q -u file
     ${RLOG} file | fgrep -x -A 1 'locks: strict' | head -n 2 | fgrep -q 1.2 &&
-        false || true
+        return 1 || true
 
     ${RCS} -q -l1.1 file
     ${RLOG} file | fgrep -x -A 1 'locks: strict' | head -n 2 | fgrep -q 1.1
     ${RCS} -q -u1.1 file
     ${RLOG} file | fgrep -x -A 1 'locks: strict' | head -n 2 | fgrep -q 1.1 &&
-        false || true
+        return 1 || true
 
     ${RCS} -q -l1.2 file
     ${RLOG} file | fgrep -x -A 1 'locks: strict' | head -n 2 | fgrep -q 1.2
     ${RCS} -q -u1.2 file
     ${RLOG} file | fgrep -x -A 1 'locks: strict' | head -n 2 | fgrep -q 1.2 &&
-        false || true
+        return 1 || true
 
-    ${RCS} -q -u file
-    ${RCS} -q -l file
-    ${RCS} -q -l file
-    ${RCS} -q -l1.3 file && false || true
-    ${RCS} -q -u1.3 file && false || true
+    ${RCS} -q -u file || return 1
+    ${RCS} -q -l file || return 1
+    ${RCS} -q -l file || return 1
+    ${RCS} -q -l1.3 file && return 1 || true
+    ${RCS} -q -u1.3 file && return 1 || true
 }
 
 # Testing 'co -l blah.c' for permissions inheritance
@@ -513,27 +514,27 @@ test_co_lock_filemodes() {
     echo "blah" | ${CI} -q blah.c
     chmod 755 RCS/blah.c,v
     ${CO} -q -l blah.c
-    cmp_file_perm blah.c 755
+    cmp_file_perm blah.c 755 || return 1
 
     rm -rf blah.c
     chmod 666 RCS/blah.c,v
     ${CO} -q -l blah.c
-    cmp_file_perm blah.c 644
+    cmp_file_perm blah.c 644 || return 1
 
     rm -rf blah.c
     chmod 600 RCS/blah.c,v
     ${CO} -q -l blah.c
-    cmp_file_perm blah.c 600
+    cmp_file_perm blah.c 600 || return 1
 
     rm -rf blah.c
     chmod 604 RCS/blah.c,v
     ${CO} -q -l blah.c
-    cmp_file_perm blah.c 604
+    cmp_file_perm blah.c 604 || return 1
 
     rm -rf blah.c
     chmod 754 RCS/blah.c,v
     ${CO} -q -l blah.c
-    cmp_file_perm blah.c 754
+    cmp_file_perm blah.c 754 || return 1
 }
 
 # Testing 'co -u blah.c' for permissions inheritance
@@ -544,27 +545,27 @@ test_co_unlock_filemodes() {
     echo "blah" | ${CI} -q blah.c
     chmod 755 RCS/blah.c,v
     ${CO} -q -u blah.c
-    cmp_file_perm blah.c 555
+    cmp_file_perm blah.c 555 || return 1
 
     rm -rf blah.c
     chmod 666 RCS/blah.c,v
     ${CO} -q -u blah.c
-    cmp_file_perm blah.c 444
+    cmp_file_perm blah.c 444 || return 1
 
     rm -rf blah.c
     chmod 600 RCS/blah.c,v
     ${CO} -q -u blah.c
-    cmp_file_perm blah.c 400
+    cmp_file_perm blah.c 400 || return 1
 
     rm -rf blah.c
     chmod 604 RCS/blah.c,v
     ${CO} -q -u blah.c
-    cmp_file_perm blah.c 404
+    cmp_file_perm blah.c 404 || return 1
 
     rm -rf blah.c
     chmod 754 RCS/blah.c,v
     ${CO} -q -u blah.c
-    cmp_file_perm blah.c 554
+    cmp_file_perm blah.c 554 || return 1
 }
 
 # Testing 'ci blah.c' for permissions inheritance
@@ -574,25 +575,25 @@ test_ci_filemodes() {
     cp -f rev3 blah.c
     chmod 755 blah.c
     echo "blah" | ${CI} -q blah.c
-    cmp_file_perm RCS/blah.c,v 555
+    cmp_file_perm RCS/blah.c,v 555 || return 1
 
     rm -rf RCS/blah.c,v blah.c
     cp -f rev3 blah.c
     chmod 666 blah.c
     echo "blah" | ${CI} -q blah.c
-    cmp_file_perm RCS/blah.c,v 444
+    cmp_file_perm RCS/blah.c,v 444 || return 1
 
     rm -rf RCS/blah.c,v blah.c
     cp -f rev3 blah.c
     chmod 700 blah.c
     echo "blah" | ${CI} -q blah.c
-    cmp_file_perm RCS/blah.c,v 500
+    cmp_file_perm RCS/blah.c,v 500 || return 1
 
     rm -rf RCS/blah.c,v blah.c
     cp -f rev3 blah.c
     chmod 606 blah.c
     echo "blah" | ${CI} -q blah.c
-    cmp_file_perm RCS/blah.c,v 404
+    cmp_file_perm RCS/blah.c,v 404 || return 1
 }
 
 # Test various operations on a file with no revisions.
@@ -600,10 +601,10 @@ test_rcs_iflag() {
     clean
     mkdir RCS
     echo "." | ${RCS} -i -q file
-    test -f RCS/file,v
+    test -f RCS/file,v || return 1
     ${CO} -q file
-    test -f file
-    test ! -s file
+    test -f file || return 1
+    test ! -s file || return 1
     rm -f file
     ${CO} -q -l file
     echo "text" >> file
@@ -616,7 +617,7 @@ test_rlog_lflag() {
     mkdir RCS
     touch file
     echo "rev1" | ${CI} -q -l file
-    ${RLOG} -l file | fgrep -q 'revision 1.1'
+    ${RLOG} -l file | fgrep -q 'revision 1.1' || return 1
     echo "line" >> file
     echo "rev2" | ${CI} -q file
     ${RLOG} -l file | fgrep -q 'revision 1.2' && false || true
@@ -635,10 +636,10 @@ test_rlog_rflag() {
     echo "foo" >> file
     ${CI} -q -m"third rev" -d'2006-01-01 00:00:00+00' -wfoo file
 
-    ${RLOG} -r1.1     file | ${DIFF} rlog-rflag1.out -
-    ${RLOG} -r1.1:1.3 file | ${DIFF} rlog-rflag2.out -
-    ${RLOG} -r1.2:    file | ${DIFF} rlog-rflag3.out -
-    ${RLOG} -r:1.1    file | ${DIFF} rlog-rflag4.out -
+    ${RLOG} -r1.1     file | ${DIFF} rlog-rflag1.out - || return 1
+    ${RLOG} -r1.1:1.3 file | ${DIFF} rlog-rflag2.out - || return 1
+    ${RLOG} -r1.2:    file | ${DIFF} rlog-rflag3.out - || return 1
+    ${RLOG} -r:1.1    file | ${DIFF} rlog-rflag4.out - || return 1
 }
 
 test_rlog_zflag() {
@@ -661,7 +662,7 @@ test_ci_revert() {
     mkdir RCS
     touch file
     echo "." | ${CI} -q -l file
-    ${CI} -q -mm -l file
+    ${CI} -q -mm -l file || return 1
     # Make sure reverting doesn't unlock file.
     ${CI} -q -mm -l file
 }
@@ -701,7 +702,7 @@ test_ci_parse_keywords2() {
 test_co_parse_truncated() {
     clean
     (ulimit -d 5000 && ${CO} -q test-truncated > truncated.out 2>&1) &&
-        false || true
+        return 1 || true
     grep -q 'co: could not parse admin data' truncated.out
 }
 
@@ -709,7 +710,7 @@ test_ci_2files() {
     clean
     touch foo bar
     ${CI} -q -t-first -l foo
-    test -f foo,v -a ! -f bar,v
+    test -f foo,v -a ! -f bar,v || return 1
     ${CI} -q -t-second -l foo bar
     test -f foo,v -a -f bar,v
 }
