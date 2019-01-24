@@ -645,12 +645,22 @@ test_rlog_rflag() {
 test_rlog_zflag() {
     clean
     touch file
-    echo "descr" | ${CI} -q -m"first rev" -d'2006-01-01 00:00:00+00' -wfoo file
-    ${RLOG} -zLT        file | ${DIFF} rlog-zflag1.out -
-    ${RLOG} -z+03:14:23 file | ${DIFF} rlog-zflag2.out -
-    ${RLOG} -z+03:14    file | ${DIFF} rlog-zflag3.out -
-    ${RLOG} -z+0314     file | ${DIFF} rlog-zflag4.out -
-    ${RLOG} -z-03:14:23 file | ${DIFF} rlog-zflag5.out -
+    echo "descr" |
+        ${CI} -q -m"first rev" -d'2006-01-01 00:00:00+00' -wfoo file
+    TZ=CET ${RLOG} -zLT file | ${DIFF} rlog-zflag1.out - || return 1
+    TZ=EST ${RLOG} -zLT file | ${DIFF} rlog-zflag2.out - || return 1
+    ${RLOG} -z+03       file | ${DIFF} rlog-zflag3.out - || return 1
+    ${RLOG} -z+0314     file | ${DIFF} rlog-zflag4.out - || return 1
+    ${RLOG} -z+03:14    file | ${DIFF} rlog-zflag4.out - || return 1
+    ${RLOG} -z-03       file | ${DIFF} rlog-zflag5.out - || return 1
+    ${RLOG} -z-0314     file | ${DIFF} rlog-zflag6.out - || return 1
+    ${RLOG} -z-03:14    file | ${DIFF} rlog-zflag6.out - || return 1
+
+    ${CO} -q -l file
+    echo "change" >> file
+    echo "descr2" |
+        ${CI} -q -m"second rev" -d'2006-12-31 22:00:00+00' -wfoo file
+    ${RLOG} -z+08 file | ${DIFF} rlog-zflag7.out - || return 1
 }
 
 test_ci_nofile() {
