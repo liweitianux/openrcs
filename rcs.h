@@ -31,6 +31,7 @@
 
 #include <time.h>
 #include <stdio.h>
+#include <stdint.h>
 
 #include "buf.h"
 
@@ -94,19 +95,7 @@
 	((k & RCS_KWEXP_ERR) || \
 	((k & RCS_KWEXP_OLD) && (k & ~RCS_KWEXP_OLD)))
 
-struct rcs_kw {
-	char	kw_str[16];
-	int	kw_type;
-};
-
 #define RCS_NKWORDS	(sizeof(rcs_expkw)/sizeof(rcs_expkw[0]))
-
-#define RCSNUM_MAXNUM	USHRT_MAX
-#define RCSNUM_MAXLEN	64
-
-#define RCSNUM_ISBRANCH(n)	((n)->rn_len % 2)
-#define RCSNUM_ISBRANCHREV(n)	(!((n)->rn_len % 2) && ((n)->rn_len >= 4))
-#define RCSNUM_NO_MAGIC		(1<<0)
 
 /* file flags */
 #define RCS_READ	  (1<<0)
@@ -147,10 +136,23 @@ struct rcs_kw {
 /* commitids in cvs/cvsnt can be up to 64 bytes */
 #define RCS_COMMITID_MAXLEN 64
 
+
+struct rcs_kw {
+	char	kw_str[16];
+	int	kw_type;
+};
+
 typedef struct rcs_num {
 	unsigned int	 rn_len;
 	uint16_t	*rn_id;
 } RCSNUM;
+
+#define RCSNUM_MAXLEN	64
+#define RCSNUM_MAXNUM	UINT16_MAX
+
+#define RCSNUM_ISBRANCH(n)	((n)->rn_len % 2)
+#define RCSNUM_ISBRANCHREV(n)	(!((n)->rn_len % 2) && ((n)->rn_len >= 4))
+#define RCSNUM_NO_MAGIC		1
 
 struct rcs_access {
 	char			*ra_name;
