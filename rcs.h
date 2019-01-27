@@ -270,7 +270,7 @@ void	 rcsnum_cpy(const RCSNUM *, RCSNUM *, unsigned int);
 int	 rcsnum_cmp(const RCSNUM *, const RCSNUM *, unsigned int);
 
 /* rcstime.c */
-void	 rcs_set_tz(char *, struct rcs_delta *, struct tm *);
+void	 rcs_set_tz(const char *, struct tm *);
 char	*rcstime_tostr(const struct tm *, char *, size_t);
 extern char *timezone_flag;
 extern int rcsnum_flags;

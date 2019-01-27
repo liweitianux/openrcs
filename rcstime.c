@@ -26,72 +26,42 @@
 
 #include <err.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include <string.h>
+#include <ctype.h>
 #include <time.h>
 
 #include "rcs.h"
 
-void
-rcs_set_tz(char *tz, struct rcs_delta *rdp, struct tm *tb)
-{
-	int tzone;
-	int pos;
-	char *h, *m;
-	const char *errstr;
-	struct tm *ltb;
-	time_t now;
+static const char *parse_ranged(const char *, size_t, int, int, int *);
+static bool parse_timezone(const char *, long *);
 
-	if (!strcmp(tz, "LT")) {
-		now = mktime(&rdp->rd_date);
-		ltb = localtime(&now);
-		ltb->tm_hour += ((int)ltb->tm_gmtoff/3600);
+
+/*
+ * Update the time info <tb>, which is a UTC time, according to the given
+ * time zone <tz>.
+ */
+void
+rcs_set_tz(const char *tz, struct tm *tb)
+{
+	time_t t;
+	long offset;
+	struct tm *ltb;
+
+	t = timegm(tb);
+
+	if (tz == NULL) {
+		return;
+	} else if (strcmp(tz, "LT") == 0) {
+		ltb = localtime(&t);
 		memcpy(tb, ltb, sizeof(*tb));
 	} else {
-		pos = 0;
-		switch (*tz) {
-		case '-':
-			break;
-		case '+':
-			pos = 1;
-			break;
-		default:
+		if (parse_timezone(tz, &offset) == false)
 			errx(1, "%s: not a known time zone", tz);
-		}
-
-		h = (tz + 1);
-		if ((m = strrchr(tz, ':')) != NULL)
-			*(m++) = '\0';
-
-		memcpy(tb, &rdp->rd_date, sizeof(*tb));
-
-		tzone = strtonum(h, -23, 23, &errstr);
-		if (errstr)
-			errx(1, "%s: not a known time zone", tz);
-
-		if (pos) {
-			tb->tm_hour += tzone;
-			tb->tm_gmtoff += (tzone * 3600);
-		} else {
-			tb->tm_hour -= tzone;
-			tb->tm_gmtoff -= (tzone * 3600);
-		}
-
-		if ((tb->tm_hour >= 24) || (tb->tm_hour <= -24))
-			tb->tm_hour = 0;
-
-		if (m != NULL) {
-			tzone = strtonum(m, 0, 59, &errstr);
-			if (errstr)
-				errx(1, "%s: not a known minute", m);
-
-			if ((tb->tm_min + tzone) >= 60) {
-				tb->tm_hour++;
-				tb->tm_min -= (60 - tzone);
-			} else
-				tb->tm_min += tzone;
-
-			tb->tm_gmtoff += (tzone*60);
-		}
+		t += offset;
+		ltb = gmtime(&t);
+		ltb->tm_gmtoff = offset;
+		memcpy(tb, ltb, sizeof(*tb));
 	}
 }
 
@@ -142,4 +112,64 @@ rcstime_tostr(const struct tm *tb, char *buf, size_t blen)
 	}
 
 	return buf;
+}
+
+
+static
+const char *
+parse_ranged(const char *s, size_t len, int min, int max, int *result)
+{
+	const char *end;
+	int n;
+
+	if (strlen(s) < len)
+		return NULL;
+
+	n = 0;
+	end = s + len;
+	while (s < end) {
+		if (!isdigit((unsigned char)*s))
+			return NULL;
+		n = 10 * n + (*s - '0');
+		s++;
+	}
+
+	if (n < min || n > max)
+		return NULL;
+
+	*result = n;
+	return s;
+}
+
+/*
+ * Parse the timezone in <s> and store the number of seconds east of UTC
+ * in <result>.  Allowed timezone format is: (1) "LT", i.e., local time;
+ * (2) "+hh[[:]mm]" or "-hh[[:]mm]".
+ */
+static
+bool
+parse_timezone(const char *s, long *result)
+{
+	int hh, mm;
+	long offset;
+	char sign;
+
+	hh = mm = 0;
+	if (*s != '+' && *s != '-')
+		return false;
+	sign = *s++;
+	if ((s = parse_ranged(s, 2, 0, 23, &hh)) == NULL)
+		return false;
+	if (*s != '\0') {
+		if (*s == ':')
+			s++;
+		if ((s = parse_ranged(s, 2, 0, 59, &mm)) == NULL)
+			return false;
+	}
+	if (*s != '\0')
+		return false;
+
+	offset = hh * 3600L + mm * 60L;
+	*result = (sign == '-') ? -offset : offset;
+	return true;
 }

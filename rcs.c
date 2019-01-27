@@ -1487,7 +1487,7 @@ rcs_expand_keywords(char *rcsfile_in, struct rcs_delta *rdp, BUF *bp, int mode)
 
 	tb = rdp->rd_date;
 	if (timezone_flag != NULL)
-		rcs_set_tz(timezone_flag, rdp, &tb);
+		rcs_set_tz(timezone_flag, &tb);
 
 	if (realpath(rcsfile_in, resolved) == NULL)
 		rcsfile = rcsfile_in;

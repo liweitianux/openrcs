@@ -440,7 +440,6 @@ static void
 rlog_rev_print(struct rcs_delta *rdp)
 {
 	int i, found;
-	struct tm t;
 	char *author, numb[RCS_REV_BUFSZ], timeb[RCS_TIME_BUFSZ];
 	struct rcs_argvector *largv, *sargv, *wargv;
 	struct rcs_branch *rb;
@@ -522,10 +521,8 @@ rlog_rev_print(struct rcs_delta *rdp)
 	if (rdp->rd_locker != NULL)
 		printf("\tlocked by: %s;", rdp->rd_locker);
 
-	t = rdp->rd_date;
-	if (timezone_flag != NULL)
-		rcs_set_tz(timezone_flag, rdp, &t);
-	rcstime_tostr(&t, timeb, sizeof(timeb));
+	rcs_set_tz(timezone_flag, &rdp->rd_date);
+	rcstime_tostr(&rdp->rd_date, timeb, sizeof(timeb));
 
 	printf("\ndate: %s;  author: %s;  state: %s;", timeb, rdp->rd_author,
 	    rdp->rd_state);
