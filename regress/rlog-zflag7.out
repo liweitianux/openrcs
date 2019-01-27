@@ -12,7 +12,7 @@ description:
 descr
 ----------------------------
 revision 1.2
-date: 2007-01-01 06:00:00+08;  author: foo;  state: Exp;  lines: +1 -0
+date: 2007-01-01 06:00:00+08;  author: foo;  state: Exp;  lines: +1 -0;
 second rev
 ----------------------------
 revision 1.1
