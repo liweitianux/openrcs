@@ -94,3 +94,52 @@ rcs_set_tz(char *tz, struct rcs_delta *rdp, struct tm *tb)
 		}
 	}
 }
+
+/*
+ * Format the broken-down time <tb> to string in <buf>.
+ */
+char *
+rcstime_tostr(const struct tm *tb, char *buf, size_t blen)
+{
+	char sign;
+	long zone;
+	int non_hour;
+
+	if (tb->tm_gmtoff == 0) {
+		snprintf(buf, blen,
+			 "%04d/%02d/%02d %02d:%02d:%02d",
+			 tb->tm_year + 1900,
+			 tb->tm_mon + 1,
+			 tb->tm_mday,
+			 tb->tm_hour,
+			 tb->tm_min,
+			 tb->tm_sec);
+	} else {
+		if (tb->tm_gmtoff > 0) {
+			sign = '+';
+			zone = tb->tm_gmtoff;
+		} else {
+			sign = '-';
+			zone = -tb->tm_gmtoff;
+		}
+		snprintf(buf, blen,
+			 "%04d-%02d-%02d %02d:%02d:%02d%c%02d",
+			 tb->tm_year + 1900,
+			 tb->tm_mon + 1,
+			 tb->tm_mday,
+			 tb->tm_hour,
+			 tb->tm_min,
+			 tb->tm_sec,
+			 sign,
+			 (int)(zone / 3600));
+		non_hour = zone % 3600;
+		if (non_hour) {
+			char tmp[8];
+			snprintf(tmp, sizeof(tmp), ":%02d", non_hour/60);
+			if (strlcat(buf, tmp, blen) >= blen)
+				errx(1, "rcstime_tostr: string truncated");
+		}
+	}
+
+	return buf;
+}
