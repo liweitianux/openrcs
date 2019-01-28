@@ -1,0 +1,6 @@
+line1
+<<<<<<< label1
+file1new
+=======
+file3new
+>>>>>>> file3

@@ -71,6 +71,7 @@ TESTS="
     rcsdiff \
     rcsdiff_symbols \
     merge_eflag \
+    merge_Lflag \
     rcsmerge \
     rcsmerge_symbols \
     ci_dflag \
@@ -316,6 +317,20 @@ test_merge_eflag() {
     printf "line1\nfile3new\nline2\n" > file3
     ${MERGE} -p -q -e file1 file2 file3 |
         ${DIFF} merge-eflag.out -
+}
+
+test_merge_Lflag() {
+    printf "line1\nfile1new\n" > file1
+    printf "line1\nline2\n" > file2
+    printf "line1\nfile3new\n" > file3
+    ${MERGE} -p file1 file2 file3 |
+        ${DIFF} merge-Lflag1.out - || return 1
+    ${MERGE} -p -L label1 file1 file2 file3 |
+        ${DIFF} merge-Lflag2.out - || return 1
+    ${MERGE} -p -L label1 -L label2 file1 file2 file3 |
+        ${DIFF} merge-Lflag2.out - || return 1
+    ${MERGE} -p -L label1 -L label2 -L label3 file1 file2 file3 |
+        ${DIFF} merge-Lflag3.out - || return 1
 }
 
 test_rcsmerge() {
