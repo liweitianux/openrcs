@@ -73,11 +73,11 @@
 #define PRESERVETIME	(1<<23)
 #define QUIET		(1<<24)
 
-extern char	*__progname;
-extern const char	rcs_version[];
+extern char		*__progname;
+extern const char	 rcs_version[];
 
-extern int	 rcs_optind;
-extern char	*rcs_optarg;
+extern int		 rcs_optind;
+extern char		*rcs_optarg;
 extern const char	*rcs_suffixes;
 extern const char	*rcs_tmpdir;
 

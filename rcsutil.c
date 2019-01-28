@@ -341,10 +341,10 @@ rcs_prompt(const char *prompt, int flags)
 		flags |= INTERACTIVE;
 
 	bp = buf_alloc(0);
-	if (flags & INTERACTIVE)
+	if (flags & INTERACTIVE) {
 		(void)fprintf(stderr, "%s", prompt);
-	if (flags & INTERACTIVE)
 		(void)fprintf(stderr, ">> ");
+	}
 	clearerr(stdin);
 	while ((len = getline(&line, &linecap, stdin)) > 0) {
 		/* The last line may not be EOL terminated. */
@@ -451,19 +451,19 @@ rcs_set_description(RCSFILE *file, const char *in, int flags)
 	    "enter description, terminated with single '.' or end of file:\n"
 	    "NOTE: This is NOT the log message!\n";
 
-	/* Description is in file <in>. */
 	if (in != NULL && *in != '-') {
+		/* Description is in file <in>. */
 		if ((bp = buf_load(in)) == NULL)
 			return (-1);
 		buf_putc(bp, '\0');
 		content = buf_release(bp);
-	/* Description is in <in>. */
-	} else if (in != NULL)
-		/* Skip leading `-'. */
-		content = xstrdup(in + 1);
-	/* Get description from stdin. */
-	else
+	} else if (in != NULL) {
+		/* Description is in <in>. */
+		content = xstrdup(in + 1);  /* Skip leading `-'. */
+        } else {
+		/* Get description from stdin. */
 		content = rcs_prompt(prompt, flags);
+        }
 
 	rcs_desc_set(file, content);
 	free(content);
