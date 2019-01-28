@@ -29,3 +29,6 @@ LINKS=	${BINDIR}/rcs ${BINDIR}/ci \
 
 beforeinstall:
 	-mkdir -p ${BINDIR} ${MANDIR}1
+
+test: ${PROG}
+	cd regress; sh run-tests.sh
