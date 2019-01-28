@@ -32,6 +32,7 @@
 #include <time.h>
 #include <stdio.h>
 #include <stdint.h>
+#include <stdbool.h>
 
 #include "buf.h"
 
@@ -271,7 +272,7 @@ int	 rcsnum_cmp(const RCSNUM *, const RCSNUM *, unsigned int);
 
 /* rcstime.c */
 void	 rcs_set_tz(const char *, struct tm *);
-char	*rcstime_tostr(const struct tm *, char *, size_t);
+char	*rcstime_tostr(const struct tm *, char *, size_t, bool);
 extern char *timezone_flag;
 extern int rcsnum_flags;
 

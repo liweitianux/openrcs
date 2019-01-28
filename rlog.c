@@ -30,6 +30,7 @@
 #include <libgen.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include <string.h>
 #include <time.h>
 #include <unistd.h>
@@ -522,7 +523,8 @@ rlog_rev_print(struct rcs_delta *rdp)
 		printf("\tlocked by: %s;", rdp->rd_locker);
 
 	rcs_set_tz(timezone_flag, &rdp->rd_date);
-	rcstime_tostr(&rdp->rd_date, timeb, sizeof(timeb));
+	rcstime_tostr(&rdp->rd_date, timeb, sizeof(timeb),
+		      timezone_flag ? true : false);
 
 	printf("\ndate: %s;  author: %s;  state: %s;", timeb, rdp->rd_author,
 	    rdp->rd_state);
