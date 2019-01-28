@@ -63,10 +63,9 @@
  *
  *	@(#)diffreg.c   8.1 (Berkeley) 6/6/93
  */
+
 #ifndef DIFF_H
 #define DIFF_H
-
-#include <sys/queue.h>
 
 #include <regex.h>
 
@@ -109,10 +108,10 @@
 struct rcs_lines;
 
 BUF		*rcs_diff3(RCSFILE *, char *, RCSNUM *, RCSNUM *, int);
-BUF		*merge_diff3(char **, int);
-void		diff_output(const char *, ...);
-int		diffreg(const char *, const char *, BUF *, int);
-int		ed_patch_lines(struct rcs_lines *, struct rcs_lines *);
+BUF		*merge_diff3(char **, int, const char **);
+void		 diff_output(const char *, ...);
+int		 diffreg(const char *, const char *, BUF *, int);
+int		 ed_patch_lines(struct rcs_lines *, struct rcs_lines *);
 
 extern int       diff_context;
 extern int       diff_format;

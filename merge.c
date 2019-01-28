@@ -89,9 +89,7 @@ merge_main(int argc, char **argv)
 	for (; labels < 3; labels++)
 		label[labels] = argv[labels];
 
-	/* XXX handle labels */
-	(void)label;  /* suppress the warning at the moment */
-	if ((bp = merge_diff3(argv, flags)) == NULL)
+	if ((bp = merge_diff3(argv, flags, label)) == NULL)
 		errx(D_ERROR, "failed to merge");
 
 	if (diff3_conflicts != 0)

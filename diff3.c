@@ -149,10 +149,11 @@ int diff3_conflicts = 0;
  * For merge(1).
  */
 BUF *
-merge_diff3(char **av, int flags)
+merge_diff3(char **files, const int flags, const char **marks)
 {
 	int argc;
 	char *argv[5], *dp13, *dp23, *path1, *path2, *path3;
+	const char *fmark, *rmark;
 	BUF *b1, *b2, *b3, *d1, *d2, *diffb;
 	unsigned char *data, *patch;
 	size_t dlen, plen;
@@ -161,14 +162,17 @@ merge_diff3(char **av, int flags)
 	dp13 = dp23 = path1 = path2 = path3 = NULL;
 	data = patch = NULL;
 
+	fmark = marks ? marks[0] : files[0];
+	rmark = marks ? marks[2] : files[2];
+
 	if ((flags & MERGE_EFLAG) && !(flags & MERGE_OFLAG))
 		oflag = 0;
 
-	if ((b1 = buf_load(av[0])) == NULL)
+	if ((b1 = buf_load(files[0])) == NULL)
 		goto out;
-	if ((b2 = buf_load(av[1])) == NULL)
+	if ((b2 = buf_load(files[1])) == NULL)
 		goto out;
-	if ((b3 = buf_load(av[2])) == NULL)
+	if ((b3 = buf_load(files[2])) == NULL)
 		goto out;
 
 	d1 = buf_alloc(128);
@@ -213,7 +217,7 @@ merge_diff3(char **av, int flags)
 	argv[argc++] = path2;
 	argv[argc++] = path3;
 
-	diff3_conflicts = diff3_internal(argc, argv, av[0], av[2]);
+	diff3_conflicts = diff3_internal(argc, argv, fmark, rmark);
 	if (diff3_conflicts < 0) {
 		buf_free(diffb);
 		diffb = NULL;
