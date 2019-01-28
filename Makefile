@@ -5,6 +5,10 @@ PROG=	rcs
 WARNS?=	6
 CSTD?=	c99
 
+PREFIX?=/usr/local
+BINDIR=${PREFIX}/bin
+SHAREDIR=${PREFIX}/share
+
 CFLAGS+=-I${.CURDIR}
 SRCS=	ci.c co.c ident.c merge.c rcsclean.c rcsdiff.c rcsmerge.c rcsparse.c \
 	rcsprog.c rlog.c rcsutil.c buf.c date.y diff.c diff3.c rcs.c rcsnum.c \
@@ -22,3 +26,6 @@ LINKS=	${BINDIR}/rcs ${BINDIR}/ci \
 	${BINDIR}/rcs ${BINDIR}/rlog
 
 .include <bsd.prog.mk>
+
+beforeinstall:
+	-mkdir -p ${BINDIR} ${MANDIR}1
