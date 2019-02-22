@@ -14,6 +14,7 @@ CFLAGS+=-Wrestrict -Wnull-dereference -Wshadow -Wformat-security
 CFLAGS+=-Wwrite-strings -Wcast-qual -Wcast-align
 CFLAGS+=-Wredundant-decls
 #CFLAGS+=-Wconversion
+CFLAGS+=-fstrict-aliasing -Wstrict-aliasing
 
 CFLAGS+=-I.
 CFLAGS+=$(shell pkg-config --cflags libbsd-overlay)
