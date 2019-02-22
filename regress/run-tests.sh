@@ -14,7 +14,7 @@ RCSDIFF=${RCSDIFF:-rcsdiff}
 RCSMERGE=${RCSMERGE:-rcsmerge}
 RLOG=${RLOG:-rlog}
 
-DIFF="${DIFF:-diff -u}"
+DIFF=${DIFF:-"diff -u"}
 
 
 #
@@ -769,21 +769,23 @@ while [ -n "$1" ]; do
     echo "Running [${i}/${N}] test: ${t} ..."
     test_${t}
     if [ $? -eq 0 ]; then
-        echo "SUCCESS"
+        echo "SUCCESS [${t}]"
     else
-        echo "*** FAILED ***"
+        echo "*** FAILED [${t}] ***"
         FAILED="${FAILED} ${t}"
     fi
 done
 
-echo ""
-echo "Clean up ..."
-clean
-rm -f ${PROGS}
+if [ -z "${NO_CLEAN}" ]; then
+    echo ""
+    echo "Clean up ..."
+    clean
+    rm -f ${PROGS}
+fi
 
+echo ""
 FAILED="${FAILED## }"
 if [ -n "${FAILED}" ]; then
-    echo ""
     echo "*************"
     echo "Failed tests:"
     echo "*************"
