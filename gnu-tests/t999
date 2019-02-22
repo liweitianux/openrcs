@@ -43,7 +43,7 @@ cd $wd
 # null bytes.  Our substitute exclusive-ORs with '\n'; this ensures
 # null bytes on output, which is even better than `tr', since some
 # diffs think a file is binary only if it contains null bytes.
-xorlf='../btdt xorlf'
+xorlf='../xorlf'
 TMPDIR=`pwd` ; export TMPDIR
 
 : ${DIFF=diff}

@@ -78,7 +78,7 @@ must 'co -l $w'
 must 'touch -t 199910111213.14 $v'
 must 'cp -p $v $v.SAVE'
 must 'rcsclean -T -u $w'
-test 0 = `./btdt mtimecmp $v $v.SAVE` \
+test 0 = `./mtimecmp.sh $v $v.SAVE` \
     || problem 'rcsclean -T did not preserve the RCS file mtime'
 
 exit 0

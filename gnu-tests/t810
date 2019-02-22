@@ -27,7 +27,7 @@ split_std_out_err no
 
 must 'echo new line >> $w'
 must 'ci -mm -l -d -T $w'
-test 1 = `./btdt mtimecmp $w $v` \
+test 1 = `./mtimecmp.sh $w $v` \
     && problem "$w newer than $v"
 
 exit 0

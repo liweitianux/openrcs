@@ -28,7 +28,7 @@ must 'co -M1.3 $w'
 # 2010.03.30.09.45.42
 TZ=UTC touch -t 201003300945.42 $wd/ref
 
-test 0 = `./btdt mtimecmp $wd/ref $w` \
+test 0 = `./mtimecmp.sh $wd/ref $w` \
     || problem "‘co -M’ set $w mtime incorrectly"
 
 exit 0
