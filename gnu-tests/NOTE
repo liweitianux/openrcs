@@ -1,0 +1,87 @@
+GNU RCS Test Suite
+==================
+
+This directory contains the test suite of GNU RCS
+(https://www.gnu.org/software/rcs/).
+
+The test suite is employed to test OpenRCS to achieve better compatiblity
+with GNU RCS.
+
+Code: https://savannah.gnu.org/projects/rcs/
+Version: 8b274ba689f7e4e9098b12efd9ccb2ff95766e6b (next@2018-06-26)
+License: GPLv3
+
+Deleted Files
+-------------
+ChangeLog
+Makefile.am
+btdt.c
+fake/ancient.make
+fake/nul-in-ed-script.GNUmakefile
+fake/stdio-sync.GNUmakefile
+known-failures.in
+
+Tests
+-----
+($ head -qn1 t???)
+# t010 --- btdt --version / --help
+# t030 --- C function ‘getoldkeys’
+# t050 --- C function ‘grok_all’ maintains correct edits order
+# t150 --- availability to shell, --version / --help / -V
+# t151 --- ‘rcs --commands’ and ‘rcs --aliases’
+# t153 --- inaccessible TMPDIR
+# t160 --- rcsdiff
+# t180 --- merge -p
+# t181 --- merge(1) w/ invalid options, arguments
+# t300 --- rlog on invalid RCS file
+# t301 --- rlog on RCS file w/ bad ‘integrity’
+# t302 --- warning for lock held on non-existent revision
+# t310 --- rlog on valid RCS file
+# t311 --- rlog (parsing in general) accepts numeric state, author
+# t312 --- rlog outputs midline-ending log messages with trailing newline
+# t313 --- rlog outputs midline-ending description with trailing newline
+# t314 --- rlog w/ various date-selection, timezone-output options
+# t320 --- rlog -zLT regression
+# t370 --- rlog w/ various (-r, -l, -w, -s, -d) filters
+# t380 --- rlog reports "keyword substitution: b"
+# t390 --- ident
+# t391 --- ident with Subversion-style keyword syntax
+# t400 --- [stdio] editing routines properly copy trailing context
+# t410 --- co -p
+# t420 --- co -p -j
+# t430 --- co -p -k
+# t440 --- co -p -w
+# t450 --- co -p -s
+# t460 --- co -p -d
+# t470 --- rcsmerge -p -kk
+# t500 --- does ‘rcs -i -kSUBST’ set the ‘expand’ keyword?
+# t510 --- ci -i
+# t511 --- ci -iREV -mm
+# t600 --- rcs -n updates RCS file
+# t601 --- rcs -a, rcs -e update RCS file
+# t602 --- both ‘BRNUM’ and ‘BRNUM.’ resolve to branch tip
+# t603 --- rcs -m
+# t604 --- checkin on a branch with non-strict locking
+# t605 --- unchanged checkin on branch
+# t606 --- lock/unlock with integrity
+# t607 --- rcs -s
+# t608 --- rcs -m:
+# t609 --- ‘rcs -I -l’ when already locked by someone else
+# t620 --- strange invocation: ci, co, merge, rcs, rcsdiff, rcsmerge, rlog
+# t630 --- co -S -l
+# t631 --- co -M
+# t632 --- ‘co -l’ w/ writable workfile
+# t780 --- rcs -o
+# t790 --- rcsclean
+# t800 --- outdating everything leaves "empty" RCS file
+# t801 --- ci -dYYYY-DOY (day of year) parsing
+# t802 --- ci -dYYYY-wWW-D (ISO week and day) parsing
+# t803 --- symbolic to numeric w/ common prefix
+# t804 --- revert on unchanged on a branch
+# t805 --- stdio/fd desync regression
+# t806 --- invalid RCS file: missing string for desc, log, text
+# t807 --- rlog +/- summation w/ NUL in ed script
+# t808 --- ‘rlog -w’ defaults to user login
+# t810 --- ci -l -d -T FILE
+# t900 --- (re)create the RCS files fake/b, fake/b.d/*
+# t999 --- the original src/rcstest
