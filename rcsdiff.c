@@ -266,7 +266,7 @@ rcsdiff_usage(void)
 	    "usage: rcsdiff [-cnquV] [-kmode] [-rrev] [-xsuffixes] [-ztz]\n"
 	    "               [diff_options] file ...\n");
 
-	exit(D_ERROR);
+	exit(1);
 }
 
 static int
