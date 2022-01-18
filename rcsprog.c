@@ -37,13 +37,21 @@
 
 const char rcs_version[] = "OpenRCS 4.5";
 
-int	 rcsflags;
-int	 rcs_optind;
-char	*rcs_optarg;
+int		 rcs_optind;
+char		*rcs_optarg;
 const char	*rcs_suffixes = RCS_DEFAULT_SUFFIX;
 const char	*rcs_tmpdir = RCS_TMPDIR_DEFAULT;
+struct wklhead	 temp_files;
 
-struct rcs_prog {
+static int	 rcsflags;
+
+static int	build_cmd(char ***, char **, int);
+static void	rcs_attach_symbol(RCSFILE *, const char *);
+static int	rcs_main(int, char **);
+static void	rcs_usage(void) __dead2;
+static void	sighdlr(int);
+
+static struct rcs_prog {
 	const char	*prog_name;
 	int		(*prog_hdlr)(int, char **);
 	void		(*prog_usage)(void);
@@ -59,20 +67,15 @@ struct rcs_prog {
 	{ "merge",	merge_main,	merge_usage	},
 };
 
-struct wklhead temp_files;
 
-void sighdlr(int);
-static void  rcs_attach_symbol(RCSFILE *, const char *);
-
-/* ARGSUSED */
-void
+static void
 sighdlr(int sig __unused)
 {
 	worklist_clean(&temp_files, worklist_unlink);
 	_exit(1);
 }
 
-int
+static int
 build_cmd(char ***cmd_argv, char **argv, int argc)
 {
 	int cmd_argc, i, cur;

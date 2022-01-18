@@ -114,9 +114,6 @@ int		rcsmerge_main(int, char **);
 __dead2 void	rcsmerge_usage(void);
 
 /* rcsprog.c */
-int		build_cmd(char ***, char **, int);
-int		rcs_main(int, char **);
-__dead2 void	rcs_usage(void);
 void		(*usage)(void);
 
 /* rlog.c */
