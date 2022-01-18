@@ -30,5 +30,8 @@ LINKS=	${BINDIR}/rcs ${BINDIR}/ci \
 beforeinstall:
 	-mkdir -p ${BINDIR} ${MANDIR}1
 
+date: date.c xmalloc.c
+	${CC} ${CFLAGS} -DTEST -o ${.TARGET} ${.ALLSRC}
+
 test: ${PROG}
 	cd regress; sh run-tests.sh
