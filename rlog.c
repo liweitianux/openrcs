@@ -48,8 +48,6 @@ static int	rlog_select_daterev(RCSFILE *, char *);
 static void	rlog_file(const char *, RCSFILE *);
 static void	rlog_rev_print(struct rcs_delta *);
 
-#define RLOG_OPTSTRING	"d:E:hLl::NqRr::S:s:TtVw::x::z::"
-
 static int dflag, hflag, Lflag, lflag, rflag, tflag, Nflag, wflag;
 static char *llist = NULL;
 static char *slist = NULL;
@@ -79,10 +77,13 @@ rlog_main(int argc, char **argv)
 	int Rflag;
 	int i, ch, fd, status;
 	char fpath[PATH_MAX];
+	const char *options;
 
 	rcsnum_flags |= RCSNUM_NO_MAGIC;
 	hflag = Rflag = rflag = status = 0;
-	while ((ch = rcs_getopt(argc, argv, RLOG_OPTSTRING)) != -1) {
+
+	options = "d:E:hLl::NqRr::S:s:TtVw::x::z::";
+	while ((ch = rcs_getopt(argc, argv, options)) != -1) {
 		switch (ch) {
 		case 'd':
 			dflag = 1;

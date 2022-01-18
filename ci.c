@@ -37,7 +37,6 @@
 #include "rcsprog.h"
 #include "diff.h"
 
-#define CI_OPTSTRING	"d::f::I::i::j::k::l::M::m::N:n:qr::s:Tt::u::Vw:x::z::"
 #define DATE_NOW	-1
 #define DATE_MTIME	-2
 
@@ -114,6 +113,7 @@ checkin_main(int argc, char **argv)
 	int i, ch, status;
 	int base_flags, base_openflags;
 	const char *rev_str;
+	const char *options;
 	struct checkin_params pb;
 
 	pb.date = DATE_NOW;
@@ -128,7 +128,8 @@ checkin_main(int argc, char **argv)
 	base_openflags = RCS_RDWR|RCS_CREATE|RCS_PARSE_FULLY;
 	rev_str = NULL;
 
-	while ((ch = rcs_getopt(argc, argv, CI_OPTSTRING)) != -1) {
+	options = "d::f::I::i::j::k::l::M::m::N:n:qr::s:Tt::u::Vw:x::z::";
+	while ((ch = rcs_getopt(argc, argv, options)) != -1) {
 		switch (ch) {
 		case 'd':
 			if (rcs_optarg == NULL)

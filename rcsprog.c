@@ -35,8 +35,6 @@
 
 #include "rcsprog.h"
 
-#define RCSPROG_OPTSTRING	"A:a:b::c:e::Iik:Ll::m:Mn:N:o:qt::TUu::Vx::z::"
-
 const char rcs_version[] = "OpenRCS 4.5";
 
 int	 rcsflags;
@@ -185,6 +183,7 @@ rcs_main(int argc, char **argv)
 {
 	int fd;
 	int i, j, ch, flags, kflag, lkmode;
+	const char *options;
 	const char *nflag, *oldfilename, *orange;
 	char fpath[PATH_MAX];
 	char *logstr, *logmsg, *descfile;
@@ -208,7 +207,8 @@ rcs_main(int argc, char **argv)
 		warnx("warning: No options were given; "
 		    "this usage is obsolescent.");
 
-	while ((ch = rcs_getopt(argc, argv, RCSPROG_OPTSTRING)) != -1) {
+	options = "A:a:b::c:e::Iik:Ll::m:Mn:N:o:qt::TUu::Vx::z::";
+	while ((ch = rcs_getopt(argc, argv, options)) != -1) {
 		switch (ch) {
 		case 'A':
 			oldfilename = rcs_optarg;

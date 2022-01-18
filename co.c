@@ -37,8 +37,6 @@
 #include "rcsprog.h"
 #include "diff.h"
 
-#define CO_OPTSTRING	"d:f::I::k:l::M::p::q::r::s:Tu::Vw::x::z::"
-
 static void	checkout_err_nobranch(RCSFILE *, const char *, const char *,
     const char *, int);
 static int	checkout_file_has_diffs(RCSFILE *, RCSNUM *, const char *);
@@ -50,6 +48,7 @@ checkout_main(int argc, char **argv)
 	RCSNUM *rev;
 	RCSFILE *file;
 	const char *author, *date, *state, *rev_str;
+	const char *options;
 	char fpath[PATH_MAX];
 	char *username;
 	time_t rcs_mtime = -1;
@@ -58,7 +57,8 @@ checkout_main(int argc, char **argv)
 	kflag = RCS_KWEXP_ERR;
 	rev_str = author = date = state = NULL;
 
-	while ((ch = rcs_getopt(argc, argv, CO_OPTSTRING)) != -1) {
+	options = "d:f::I::k:l::M::p::q::r::s:Tu::Vw::x::z::";
+	while ((ch = rcs_getopt(argc, argv, options)) != -1) {
 		switch (ch) {
 		case 'd':
 			date = rcs_optarg;
