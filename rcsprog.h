@@ -80,6 +80,8 @@ extern char		*rcs_optarg;
 extern const char	*rcs_suffixes;
 extern const char	*rcs_tmpdir;
 
+extern void		(*usage)(void);
+
 /* date.y */
 time_t  date_parse(const char *);
 
@@ -112,9 +114,6 @@ __dead2 void	rcsdiff_usage(void);
 /* rcsmerge.c */
 int		rcsmerge_main(int, char **);
 __dead2 void	rcsmerge_usage(void);
-
-/* rcsprog.c */
-void		(*usage)(void);
 
 /* rlog.c */
 int		rlog_main(int, char **);

@@ -43,6 +43,8 @@ const char	*rcs_suffixes = RCS_DEFAULT_SUFFIX;
 const char	*rcs_tmpdir = RCS_TMPDIR_DEFAULT;
 struct wklhead	 temp_files;
 
+void		(*usage)(void);
+
 static int	 rcsflags;
 
 static int	build_cmd(char ***, char **, int);
