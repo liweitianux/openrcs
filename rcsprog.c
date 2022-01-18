@@ -148,7 +148,7 @@ main(int argc, char **argv)
 	signal(SIGTERM, sighdlr);
 
 	for (i = 0; i < (sizeof(programs)/sizeof(programs[0])); i++)
-		if (strcmp(__progname, programs[i].prog_name) == 0) {
+		if (strcmp(getprogname(), programs[i].prog_name) == 0) {
 			usage = programs[i].prog_usage;
 			ret = programs[i].prog_hdlr(cmd_argc, cmd_argv);
 			break;
